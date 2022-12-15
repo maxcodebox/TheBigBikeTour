@@ -32,40 +32,122 @@ body {
   color: white;
 }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
+/* Responsive images: http://www.menucool.com/ui/responsive-image-grid-with-hover-effect */
+
+#rig {
+    max-width:90%;
+    margin:0 auto; /*center aligned*/
+    padding:0;
+    font-size:0; /* Remember to change it back to normal font size if have captions */
+    list-style:none;
+    background-color:#FFFFFF;
+}
+#rig li {
+    display: inline-block;
+    *display:inline;/*for IE6 - IE7*/
+    width:25%;
+    vertical-align:middle;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-/* Create four equal columns that sits next to each other */
-.column {
-  flex: 24%;
-  max-width: 24%;
-  padding: 0 4px;
+/* The wrapper for each item */
+.rig-cell {
+    margin:6px;
+    /*box-shadow:0 0 6px rgba(1,1,1,0);*/
+    display:block;
+    position: relative;
+    overflow:hidden;
 }
 
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 100%;
+/* If have the image layer */
+.rig-img {
+    display:block;
+    width: 100%;
+    height: auto;
+    border:none;
+    transform:scale(1);
+    transition:all 1s;
 }
 
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-  .column {
-    flex: 50%;
-    max-width: 50%;
-  }
+#rig li:hover .rig-img {
+    transform:scale(1.05);
 }
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    flex: 100%;
-    max-width: 100%;
-  }
+/* If have the overlay layer */
+.rig-overlay {
+    position: absolute;
+    display:block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background: #FFFFFF url(img/link.png) no-repeat center 20%;
+    background-size:50px 50px;
+    opacity:0;
+    filter:alpha(opacity=0);/*For IE6 - IE8*/
+    transition:all 0.6s;
 }
+#rig li:hover .rig-overlay {
+    opacity:0.8;
+}
+
+/* If have captions */
+.rig-text {
+    display:block;
+    padding:0 30px;
+    box-sizing:border-box;
+    position:absolute;
+    left:0;
+    width:100%;
+    text-align:center;
+    text-transform:capitalize;
+    font-size:18px;
+    font-weight:bold;
+    font-family: 'Oswald', sans-serif;
+    font-weight:normal!important;
+    top:40%;
+    color:black;
+    opacity:0;
+    filter:alpha(opacity=0);/*For older IE*/
+    transform:translateY(-20px);
+    transition:all .3s;
+}
+#rig li:hover .rig-text {
+    transform:translateY(0px);
+    opacity:0.9;
+}
+
+@media (max-width: 9000px) {
+    #rig li {
+        width:25%;
+    }
+}
+
+@media (max-width: 700px) {
+    #rig li {
+        width:33.33%;
+    }
+}
+
+@media (max-width: 550px) {
+    #rig li {
+        width:50%;
+    }
+}
+
+
+/* .cropped {
+width: 610;
+height: 560;
+overflow: hidden;
+}
+
+.cropped img {
+margin: -70px 20px 20px 20px;
+} */
 
 </style>
 </head>
@@ -75,17 +157,13 @@ body {
 
 
 <div class="topnav">
-  <!-- <a href="#home">Home</a>
-  <a class="active" href="#news">News</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a> -->
   <div class="topnav">
 <a class="active" href="index.html">Home</a>
 <a href="europe.html">Europe</a>
 <a href="asia.html">Asia</a>
 <a href="hue-hcmc_2016.html">Vietnam</a>
 <a href="singapore-kl_2017.html">Singapore to KL</a>
-<a href="taiwan_2017.html">Around Taiwan</a>
+<a href="taiwan_2017.html">Taiwan</a>
 <a href="yokohama-fukuoka_2019.html">Japan</a>
 <a href="munich-dubrovnik_2021.html">Munich to Dubrovnik</a>
 <a href="hamburg-paris_2022.html">Hamburg to Paris</a>
@@ -98,25 +176,103 @@ body {
 </div>
 
 <div style="padding-left:16px">
-  <div class="row">
-<div class="column"><a href=europe.html><center><h3>Europe</h3></center><img src="images/europe_map.png" style="width:200"></a></div>
-<div class="column"><a href=asia.html><center><h3>Asia</h3></center><img src="images/asia_map.png" style="width:200"></a></div>
-<div class="column"><a href=hue-hcmc_2016.html><center><h3>Vietnam</h3></center><img src="images/hue-hcmc_2016_map.png" style="width:200"></a></div>
-<div class="column"><a href=singapore-kl_2017.html><center><h3>Singapore to KL</h3></center><img src="images/singapore-kl_2017_map.png" style="width:200"></a></div>
-</div>
-<div class="row">
-<div class="column"><a href=taiwan_2017.html><center><h3>Around Taiwan</h3></center><img src="images/taiwan_2017_map.png" style="width:200"></a></div>
-<div class="column"><a href=yokohama-fukuoka_2019.html><center><h3>Japan</h3></center><img src="images/yokohama-fukuoka_2019_map.png" style="width:200"></a></div>
-<div class="column"><a href=munich-dubrovnik_2021.html><center><h3>Munich to Dubrovnik</h3></center><img src="images/munich-dubrovnik_2021_map.png" style="width:200"></a></div>
-<div class="column"><a href=hamburg-paris_2022.html><center><h3>Hamburg to Paris</h3></center><img src="images/hamburg-paris_2022_map.png" style="width:200"></a></div>
-</div>
-<div class="row">
-<div class="column"><a href=paris-geneva_2022.html><center><h3>Paris to Geneva</h3></center><img src="images/paris-geneva_2022_map.png" style="width:200"></a></div>
-<div class="column"><a href=hamburg-skagen_2022.html><center><h3>Hamburg to Skagen</h3></center><img src="images/hamburg-skagen_2022_map.png" style="width:200"></a></div>
-<div class="column"><a href=sion-munich_2022.html><center><h3>Sion to Munich</h3></center><img src="images/sion-munich_2022_map.png" style="width:200"></a></div>
-<div class="column"><a href=dubrovnik_istanbul_2022.html><center><h3>Dubrovnik to Istanbul</h3></center><img src="images/dubrovnik_istanbul_2022_map.png" style="width:200"></a></div>
-</div>
-
+  <ul id="rig">
+                <li>
+                    <a class="rig-cell" href="europe.html">
+                        <img class="rig-img" src="images/europe_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Europe</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="asia.html">
+                        <img class="rig-img" src="images/asia_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Asia</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="hue-hcmc_2016.html">
+                        <img class="rig-img" src="images/hue-hcmc_2016_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Vietnam</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="singapore-kl_2017.html">
+                        <img class="rig-img" src="images/singapore-kl_2017_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Singapore to KL</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="taiwan_2017.html">
+                        <img class="rig-img" src="images/taiwan_2017_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Taiwan</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="yokohama-fukuoka_2019.html">
+                        <img class="rig-img" src="images/yokohama-fukuoka_2019_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Japan</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="munich-dubrovnik_2021.html">
+                        <img class="rig-img" src="images/munich-dubrovnik_2021_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Munich to Dubrovnik</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="hamburg-paris_2022.html">
+                        <img class="rig-img" src="images/hamburg-paris_2022_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Hamburg to Paris</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="paris-geneva_2022.html">
+                        <img class="rig-img" src="images/paris-geneva_2022_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Paris to Geneva</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="hamburg-skagen_2022.html">
+                        <img class="rig-img" src="images/hamburg-skagen_2022_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Hamburg to Skagen</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="sion-munich_2022.html">
+                        <img class="rig-img" src="images/sion-munich_2022_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Sion to Munich</span>
+                    </a>
+                </li>
+            
+                <li>
+                    <a class="rig-cell" href="dubrovnik_istanbul_2022.html">
+                        <img class="rig-img" src="images/dubrovnik_istanbul_2022_map_cropped.png">
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text">Dubrovnik to Istanbul</span>
+                    </a>
+                </li>
+            </ul>
 </div>
 
 
