@@ -4,7 +4,7 @@
 __pycache__/
 circle-flags/
 old_circle-flags/
-scripts/
+scripts/api_keys.py
 templates/
 trash/
 trips/
