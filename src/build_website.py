@@ -76,12 +76,12 @@ def main():
                     <a class="rig-cell" href="{collection}.html">
                         <img class="rig-img" src="figures/static/{collection}_map.png">
                         <span class="rig-overlay"></span>
-                        <span class="rig-text" style="position: absolute; top: 30px; left: 10px;">
-                            {emoji_to_html(tr.collection_dict[collection]["name"])}<br>
-                            {days} days<br>
-                            {collection_summary['distance_km']:.0f} km, {collection_summary['elevation_gain_m']:.0f} hm, {collection_summary['moving_time_h']:.0f} hours<br>
-                            {collection_summary['distance_km']/days:.0f} km/day, {collection_summary['elevation_gain_m']/days:.0f} hm/day, {collection_summary['moving_time_h'] / days:.1f} hours/day<br>
-                            {len(collection_summary['flags'])} countries ({flags_html})
+                        <span class="rig-text" style="position: absolute; top: 30px; left: 0px;">
+                            <b>{emoji_to_html(tr.collection_dict[collection]["name"])}</b><br>
+                            {days} days, {collection_summary['moving_time_h']:.0f} h, {collection_summary['moving_time_h'] / days:.1f} h/day<br>
+                            {collection_summary['distance_km']:.0f} km, {collection_summary['distance_km']/days:.0f} km/day<br>
+                            {collection_summary['elevation_gain_m']:.0f} hm, {collection_summary['elevation_gain_m']/days:.0f} hm/day<br>
+                            {len(collection_summary['flags'])} {'countries' if len(collection_summary['flags']) > 1 else 'country'}:{flags_html}
                         </span>
                     </a>
                 </li>
