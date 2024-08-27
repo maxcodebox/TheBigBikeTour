@@ -19,6 +19,8 @@ import tokens as tokens
 import numpy as np
 from geopy.distance import geodesic
 from datetime import datetime
+import pytz
+from timezonefinder import TimezoneFinder
 
 #
 import Polylineparser as pp
@@ -181,12 +183,40 @@ def add_activity_line_to_map(fig, activity_dict, line_color='blue', line_width=4
     fig.update_traces(hovertemplate=hovertemplate)
     return fig
 
+# Initialize TimezoneFinder
+tz_finder = TimezoneFinder()
+def utc_to_local(utc_time, longitude, latitude):
+    if longitude is None or latitude is None:
+        raise ValueError("Longitude and latitude must not be None")
+    
+    if not (-180.0 <= longitude <= 180.0) or not (-90.0 <= latitude <= 90.0):
+        raise ValueError("Longitude and latitude must be within valid ranges")
+    
+    # Get the time zone based on latitude and longitude
+    time_zone_str = tz_finder.timezone_at(lat=latitude, lng=longitude)
+    if time_zone_str is None:
+        raise ValueError("Could not determine the time zone for the given coordinates")
+    
+    # Create timezone object
+    local_tz = pytz.timezone(time_zone_str)
+
+    # Check if the datetime is timezone-aware
+    if utc_time.tzinfo is None:
+        # If naive, localize to UTC
+        utc_time = pytz.utc.localize(utc_time)
+    
+    # Convert UTC time to local time
+    local_time = utc_time.astimezone(local_tz)
+    
+    return local_time
+
 def save_collection_summary(collection_name, client, reload=False):
     # Generate the map subplot
     activity_ids, activity_reversed = sp.get_activity_ids(collection_name, sort=True, reload=reload, client=client)
     
     collection_summary = {
         'distance_km':0,
+        'moving_time_h':0,
         'elevation_gain_m':0,
         'dates':set([]),
         'days':0,
@@ -195,12 +225,17 @@ def save_collection_summary(collection_name, client, reload=False):
     }
     
     for idx, (activity_id, reversed) in enumerate(zip(activity_ids, activity_reversed)):
+        
         activity_dict = sp.import_activity(activity_id, client, reload=False)
-        date = datetime.fromisoformat(str(activity_dict['start_date'])).strftime("%Y-%m-%d")
-        #print(activity_dict['date'])
-        collection_summary['dates'].add(date)
+        #date = datetime.fromisoformat(str(activity_dict['start_date'])).strftime("%Y-%m-%d")
+        utc_time = datetime.fromisoformat(str(activity_dict['start_date']))
+        longitude = activity_dict['stream_dict']['latlng'][0][1]
+        latitude = activity_dict['stream_dict']['latlng'][0][0]
+        local_time = utc_to_local(utc_time, longitude, latitude)
+        collection_summary['dates'].add(local_time.strftime("%Y-%m-%d"))
         collection_summary['days'] += 1
         collection_summary['distance_km'] += activity_dict['distance'] * 1e-3
+        collection_summary['moving_time_h'] += activity_dict['moving_time'] / (60 * 60)
         collection_summary['elevation_gain_m'] += activity_dict['total_elevation_gain']
     #print(collection_summary['dates'],len(collection_summary['dates']))
     collection_summary['days'] = len(collection_summary['dates'])
@@ -391,7 +426,8 @@ def main():
     else:
         collections = [collection]
     for collection in collections:
-        plot_collection_combined(collection, client, reload=False)
+        # plot_collection_combined(collection, client, reload=False)
+        print('Saving',collection)
         save_collection_summary(collection, client, reload=False)
 
 if __name__ == '__main__':

@@ -67,14 +67,19 @@ def main():
                     <a class="rig-cell" href="{collection}.html">
                         <img class="rig-img" src="figures/static/{collection}_map.png">
                         <span class="rig-overlay"></span>
-            #           <span class="rig-text">{tr.collection_dict[collection]["name"]}<br> {days} days<br>{collection_summary['distance_km']:.0f} km, {collection_summary['elevation_gain_m']:.0f} hm<br>{collection_summary['distance_km']/days:.0f} km/day, {collection_summary['elevation_gain_m']/days:.0f} hm/day</span>
+                        <span class="rig-text">
+                            {tr.collection_dict[collection]["name"]}<br>
+                            {days} days<br>
+                            {collection_summary['distance_km']:.0f} km, {collection_summary['elevation_gain_m']:.0f} hm, {collection_summary['moving_time_h']:.0f} hours<br>
+                            {collection_summary['distance_km']/days:.0f} km/day, {collection_summary['elevation_gain_m']/days:.0f} hm/day, {collection_summary['moving_time_h'] / days:.1f} hours/day
+                        </span>
                     </a>
                 </li>
             """
         _str_content += '</ul>'
         _out = _out.replace('<!--TRIP_CONTENT-->',_str_content)
         f.write(_out)
-
+    print('open index.html')
 
 
 if __name__ == '__main__':
