@@ -56,8 +56,12 @@ def import_activity(activity_id, client, reload = False, reversed = False):
 
 
 
-def get_activity_ids(collection, sort=True, client=None, reload=False, start_coords = (90,0)):
+def get_activity_ids(collection, sort=True, client=None, reload=False):
     
+    if 'start_coords' in tr.collection_dict[collection].keys():
+        start_coords = tr.collection_dict[collection]['start_coords']
+    else:
+        start_coords = (90,0)
     activity_ids = []
     for activity_id, activity_dict in tr.trip_dicts.items():
         if collection in activity_dict['collections']:
