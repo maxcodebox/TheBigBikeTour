@@ -42,7 +42,7 @@ def get_trip_content(collection):
 def main():
 
 
-    selected_collections = ['norway-turkey','berlin-tarifa','hue-hcmc_2016','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse']
+    selected_collections = ['norway-turkey','berlin-tarifa','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse']
     # selected_collections = ['norway-turkey']
     with open('templates/INDEX_TEMPLATE3.html','r') as f:
         index_template = ''.join(f.readlines())
