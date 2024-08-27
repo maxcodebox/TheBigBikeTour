@@ -2,10 +2,7 @@
 
 .DS_Store
 __pycache__/
-circle-flags/
-old_circle-flags/
-scripts/api_keys.py
+src/tokens.py
+src/trips.py
 templates/
-trash/
-trips/
-world_borders/
+data/
