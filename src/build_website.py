@@ -33,17 +33,23 @@ def get_topnav(collections,active_collection = ''):
 
 
 def get_trip_content(collection):
-    trip_title = collection
-    trip_label = trip_title
-    trip_filename = f'figures/html/{trip_label}.html'
-    with open(trip_filename,'r') as f:
+    with open(f'figures/html/{collection}.html','r') as f:
         return ''.join(f.readlines())
+
+def emoji_to_html(emoji):
+    # Convert each character in the flag emoji to its Unicode code point
+    code_points = [ord(char) for char in emoji]
+    
+    # Convert code points to HTML entities
+    html_entities = ''.join(f'&#x{code_point:X};' for code_point in code_points)
+    
+    return html_entities
 
 def main():
 
 
     selected_collections = ['norway-turkey','berlin-tarifa','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse']
-    # selected_collections = ['norway-turkey']
+    #selected_collections = ['norway-turkey']
     with open('templates/INDEX_TEMPLATE3.html','r') as f:
         index_template = ''.join(f.readlines())
     for collection in selected_collections:
@@ -61,17 +67,21 @@ def main():
             
             with open(f'data/{collection}_summary.pkl','rb') as f2:
                 collection_summary = pickle.load(f2)
+            #print(collection_summary)
             days = collection_summary['days']
+            
+            flags_html = ''.join([emoji_to_html(flag) for flag in collection_summary['flags']])
             _str_content +=f"""
                 <li>
                     <a class="rig-cell" href="{collection}.html">
                         <img class="rig-img" src="figures/static/{collection}_map.png">
                         <span class="rig-overlay"></span>
-                        <span class="rig-text">
-                            {tr.collection_dict[collection]["name"]}<br>
+                        <span class="rig-text" style="position: absolute; top: 30px; left: 10px;">
+                            {emoji_to_html(tr.collection_dict[collection]["name"])}<br>
                             {days} days<br>
                             {collection_summary['distance_km']:.0f} km, {collection_summary['elevation_gain_m']:.0f} hm, {collection_summary['moving_time_h']:.0f} hours<br>
-                            {collection_summary['distance_km']/days:.0f} km/day, {collection_summary['elevation_gain_m']/days:.0f} hm/day, {collection_summary['moving_time_h'] / days:.1f} hours/day
+                            {collection_summary['distance_km']/days:.0f} km/day, {collection_summary['elevation_gain_m']/days:.0f} hm/day, {collection_summary['moving_time_h'] / days:.1f} hours/day<br>
+                            {len(collection_summary['flags'])} countries ({flags_html})
                         </span>
                     </a>
                 </li>

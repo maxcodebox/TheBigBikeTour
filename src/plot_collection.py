@@ -5,6 +5,7 @@
 # https://github.com/etpinard/plotly-dashboards/tree/master/hover-images
 import argparse
 from stravalib import Client
+import re
 import os
 import pickle
 import trips as tr
@@ -26,6 +27,15 @@ from timezonefinder import TimezoneFinder
 import Polylineparser as pp
 import StravaParser as sp
 
+
+def emoji_to_html(emoji):
+    # Convert each character in the flag emoji to its Unicode code point
+    code_points = [ord(char) for char in emoji]
+    
+    # Convert code points to HTML entities
+    html_entities = ''.join(f'&#x{code_point:X};' for code_point in code_points)
+    
+    return html_entities
 
 def zoom_center(
     lons: tuple = None,
@@ -158,7 +168,7 @@ def get_hoverdata(activity_dict, reversed=False):
     )
     customdata = [
         [
-            activity_dict["name"],  # Activity name
+            emoji_to_html(activity_dict["name"]),  # Activity name
             insert_line_breaks(
                 activity_dict["description"].replace("\n", "<br>"), max_length=80
             ),  # Description
@@ -255,11 +265,22 @@ def save_collection_summary(collection_name, client, reload=False):
         "days": 0,
         "countries": 0,
         "name": tr.collection_dict[collection_name]["name"],
+        "flags": set(),
     }
 
     for idx, (activity_id, reversed) in enumerate(zip(activity_ids, activity_reversed)):
 
         activity_dict = sp.import_activity(activity_id, client, reload=False)
+        name = activity_dict["name"]
+        def extract_flag_emojis(text):
+            # Regular expression to match pairs of regional indicator symbols
+            flag_pattern = re.compile(r'[\U0001F1E6-\U0001F1FF]{2}')
+            flags = flag_pattern.findall(text)
+            if '🇪🇺' in flags:
+                flags.remove('🇪🇺')
+            return flags
+        for flag in extract_flag_emojis(name):
+            collection_summary['flags'].add(flag)
         # date = datetime.fromisoformat(str(activity_dict['start_date'])).strftime("%Y-%m-%d")
         utc_time = datetime.fromisoformat(str(activity_dict["start_date"]))
         longitude = activity_dict["stream_dict"]["latlng"][0][1]
@@ -270,7 +291,7 @@ def save_collection_summary(collection_name, client, reload=False):
         collection_summary["distance_km"] += activity_dict["distance"] * 1e-3
         collection_summary["moving_time_h"] += activity_dict["moving_time"] / (60 * 60)
         collection_summary["elevation_gain_m"] += activity_dict["total_elevation_gain"]
-    # print(collection_summary['dates'],len(collection_summary['dates']))
+    #print(´)
     collection_summary["days"] = len(collection_summary["dates"])
     with open(f"data/{collection_name}_summary.pkl", "wb") as f:
         pickle.dump(collection_summary, f)
@@ -313,7 +334,6 @@ def plot_collection_combined(collection_name, client, reload=False):
         all_lons.extend(lons)
 
         # Add the map line with the assigned color
-        print('rev',reversed)
         fig = add_activity_line_to_map(
             fig,
             activity_dict,
@@ -513,9 +533,9 @@ def main():
         collections = [collection]
     for collection in collections:
         plot_collection_combined(collection, client, reload=False)
-        save_collection_summary(collection, client, reload=False)
+        #save_collection_summary(collection, client, reload=False)
 
 
 if __name__ == "__main__":
     main()
-    # update_all()
+    #update_all()

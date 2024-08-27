@@ -12,15 +12,19 @@ def import_activity(activity_id, client, reload = False, reversed = False):
     
     # File path for the pickle file
     file_path = f"data/{activity_id}.pkl"
-    
+    #
     # Check if the activity file already exists
+    loading_error = False
     if os.path.exists(file_path) and reload == False:
         # Load the activity from the pickle file
-        with open(file_path, 'rb') as f:
-            activity_dict = pickle.load(f)
-        #print(f"Loaded activity {activity_id} from {file_path}")
-        #print(activity_dict.keys())
-    else:
+        #print('Load',file_path)
+        try:
+            with open(file_path, 'rb') as f:
+                activity_dict = pickle.load(f)
+        except:
+            loading_error = True
+        
+    if loading_error or reload or not os.path.exists(file_path):
         #print('Fetching')
         # Fetch the activity from Strava
         activity = client.get_activity(activity_id)
@@ -43,8 +47,15 @@ def import_activity(activity_id, client, reload = False, reversed = False):
         # Save the dictionary to a pickle file
         with open(file_path, 'wb') as f:
             pickle.dump(activity_dict, f)
-        print(f"Saved activity {activity_id} to {file_path}")
+        print(f"Saved activity {activity_id} to {file_path} ({activity_dict['name']})")    
     
+    def get_types(dickt):
+        for key,item in dickt.items():
+            if isinstance(item, dict):
+                get_types(item)
+            else:
+                print(key, type(item))
+    #get_types(activity_dict)
     if reversed:
         for stream_type, stream in activity_dict['stream_dict'].items():
             if stream_type == 'distance':
