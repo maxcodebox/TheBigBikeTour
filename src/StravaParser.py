@@ -2,9 +2,75 @@ import os
 import pickle
 import numpy as np
 from geopy.distance import geodesic
-
+from stravalib import Client
 import trips as tr
+import tokens
 
+
+def update_all():
+    client = Client(access_token=tokens.ACCESS_TOKEN)
+    activity_ids = [trip for trip, _ in tr.trip_dicts.items()]
+    for activity_id in activity_ids:
+        print(f"Updating {activity_id}")
+        activity_dict = import_activity(activity_id, client, reload=True)
+
+def import_collection(collection_name, reload = False, sort = True):
+    
+    client = Client(access_token=tokens.ACCESS_TOKEN)
+    
+    activity_dicts = {}
+    if 'start_coords' in tr.collection_dict[collection_name].keys():
+        start_coords = tr.collection_dict[collection_name]['start_coords']
+    else:
+        start_coords = (90,0)
+    activity_ids = []
+    
+    for activity_id, activity_dict in tr.trip_dicts.items():
+        if collection_name in activity_dict['collections']:
+            activity_ids.append(activity_id)
+    
+    activities = {}
+    for activity_id in activity_ids:
+        activity_dict = import_activity(activity_id, client,reload=reload)
+        activity_dicts[activity_id] = activity_dict
+        start_lat, start_lon = activity_dict['start_latlng']
+        end_lat, end_lon = activity_dict['end_latlng']
+        activities[activity_id] = (start_lat, start_lon, end_lat, end_lon)
+
+    sorted_activities = []; sorted_activities_reversed = []
+    last_end_coords = start_coords
+    # Sort activities based on proximity to the end point of the last activity
+    while len(sorted_activities) < len(activity_ids):
+        closest_activity = None
+        min_distance = float('inf')
+        activity_reversed = False
+        for activity_id,_ in activities.items():
+            if activity_id in sorted_activities:
+                continue
+            for reversed in [True, False]:
+                if reversed:
+                    curr_coords = (activities[activity_id][2], activities[activity_id][3])
+                else:
+                    curr_coords = (activities[activity_id][0], activities[activity_id][1])
+                
+                distance = geodesic(last_end_coords, curr_coords).kilometers
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_activity = activity_id
+                    activity_reversed = reversed
+        sorted_activities.append(closest_activity)
+        
+        activity_dicts[closest_activity]['reversed'] = reversed
+        sorted_activities_reversed.append(activity_reversed)
+        if activity_reversed:
+            last_end_coords = (activities[closest_activity][0], activities[closest_activity][1])
+        else:
+            last_end_coords = (activities[closest_activity][2], activities[closest_activity][3])
+    
+    activity_arr = []
+    for activity_id in sorted_activities:
+        activity_arr.append(activity_dicts[activity_id])
+    return activity_arr
 
 def import_activity(activity_id, client, reload = False, reversed = False):
     # Ensure the 'data' directory exists
@@ -64,61 +130,3 @@ def import_activity(activity_id, client, reload = False, reversed = False):
                 #pass
                 activity_dict['stream_dict'][stream_type] = np.flipud(stream) #stream[::-1]
     return activity_dict
-
-
-
-def get_activity_ids(collection, sort=True, client=None, reload=False):
-    
-    if 'start_coords' in tr.collection_dict[collection].keys():
-        start_coords = tr.collection_dict[collection]['start_coords']
-    else:
-        start_coords = (90,0)
-    activity_ids = []
-    for activity_id, activity_dict in tr.trip_dicts.items():
-        if collection in activity_dict['collections']:
-            activity_ids.append(activity_id)
-    activities = {}
-    for activity_id in activity_ids:
-        activity_dict = import_activity(activity_id, client,reload=reload)
-        #print(activity_dict['start_latlng'])
-        start_lat, start_lon = activity_dict['start_latlng']
-        end_lat, end_lon = activity_dict['end_latlng']
-        activities[activity_id] = (start_lat, start_lon, end_lat, end_lon)
-
-    if not sort:
-        return activity_ids
-
-    
-    sorted_activities = []; sorted_activities_reversed = []
-    last_end_coords = start_coords
-
-    reversed = False
-    # Sort activities based on proximity to the end point of the last activity
-    while len(sorted_activities) < len(activity_ids):
-        closest_activity = None
-        min_distance = float('inf')
-        activity_reversed = False
-        for activity_id,_ in activities.items():
-            if activity_id in sorted_activities:
-                continue
-            for reversed in [True, False]:
-                if reversed:
-                    curr_coords = (activities[activity_id][2], activities[activity_id][3])
-                else:
-                    curr_coords = (activities[activity_id][0], activities[activity_id][1])
-                
-                distance = geodesic(last_end_coords, curr_coords).kilometers
-                if distance < min_distance:
-                    min_distance = distance
-                    closest_activity = activity_id
-                    activity_reversed = reversed
-
-        sorted_activities.append(closest_activity)
-        sorted_activities_reversed.append(activity_reversed)
-        if activity_reversed:
-            last_end_coords = (activities[closest_activity][0], activities[closest_activity][1])
-        else:
-            last_end_coords = (activities[closest_activity][2], activities[closest_activity][3])
-        #last_end_coords = (activities[closest_activity][2], activities[closest_activity][3])
-    #print('after', sorted_activities)
-    return sorted_activities, sorted_activities_reversed

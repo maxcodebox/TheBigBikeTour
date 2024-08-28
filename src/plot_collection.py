@@ -4,7 +4,6 @@
 # Notes:
 # https://github.com/etpinard/plotly-dashboards/tree/master/hover-images
 import argparse
-from stravalib import Client
 import re
 import os
 import pickle
@@ -252,11 +251,7 @@ def utc_to_local(utc_time, longitude, latitude):
     return local_time
 
 
-def save_collection_summary(collection_name, client, reload=False):
-    # Generate the map subplot
-    activity_ids, activity_reversed = sp.get_activity_ids(
-        collection_name, sort=True, reload=reload, client=client
-    )
+def save_collection_summary(collection_name,activities):
 
     collection_summary = {
         "distance_km": 0,
@@ -269,9 +264,7 @@ def save_collection_summary(collection_name, client, reload=False):
         "flags": set(),
     }
 
-    for idx, (activity_id, reversed) in enumerate(zip(activity_ids, activity_reversed)):
-
-        activity_dict = sp.import_activity(activity_id, client, reload=False)
+    for activity_dict in activities:
         name = activity_dict["name"]
         def extract_flag_emojis(text):
             # Regular expression to match pairs of regional indicator symbols
@@ -292,13 +285,12 @@ def save_collection_summary(collection_name, client, reload=False):
         collection_summary["distance_km"] += activity_dict["distance"] * 1e-3
         collection_summary["moving_time_h"] += activity_dict["moving_time"] / (60 * 60)
         collection_summary["elevation_gain_m"] += activity_dict["total_elevation_gain"]
-    #print(´)
     collection_summary["days"] = len(collection_summary["dates"])
     with open(f"data/{collection_name}_summary.pkl", "wb") as f:
         pickle.dump(collection_summary, f)
 
 
-def plot_collection_combined(collection_name, client, reload=False):
+def plot_collection_combined(collection_name, activities):
     # Create subplots: 3 rows, 1 column
     ROW_ALTITUDE = 1
     ROW_MAP = 2
@@ -313,22 +305,16 @@ def plot_collection_combined(collection_name, client, reload=False):
         specs=[[{"type": "scatter"}], [{"type": "scattermapbox"}]],#, [{"type": "table"}]],
     )
 
-    # Generate the map subplot
-    activity_ids, activity_reversed = sp.get_activity_ids(
-        collection_name, sort=True, reload=reload, client=client
-    )
-
     all_lats = []
     all_lons = []
 
     # Generate a consistent color for each activity
     colors = [
         f"rgb({r},{g},{b})"
-        for r, g, b in np.random.randint(0, 255, (len(activity_ids), 3))
+        for r, g, b in np.random.randint(0, 255, (len(activities), 3))
     ]
 
-    for idx, (activity_id, reversed) in enumerate(zip(activity_ids, activity_reversed)):
-        activity_dict = sp.import_activity(activity_id, client, reload=False)
+    for idx,activity_dict in enumerate(activities):
         coordinates = polyline.decode(activity_dict["map"]["polyline"])
         lats, lons = zip(*coordinates)
         all_lats.extend(lats)
@@ -341,7 +327,7 @@ def plot_collection_combined(collection_name, client, reload=False):
             row=ROW_MAP,
             col=1,
             line_color=colors[idx],
-            reversed=reversed,
+            reversed=activity_dict['reversed'],
         )
 
     zoom, center = zoom_center(lons=all_lons, lats=all_lats, width_to_height=5.0)
@@ -358,11 +344,9 @@ def plot_collection_combined(collection_name, client, reload=False):
     # Generate the altitude subplot
     N = 10
     x0 = 0
-    for idx, (activity_id, reversed) in enumerate(zip(activity_ids, activity_reversed)):
-        activity_dict = sp.import_activity(
-            activity_id, client, reload=reload, reversed=reversed
-        )
-        hovertemplate, customdata = get_hoverdata(activity_dict, reversed=reversed)
+
+    for idx,activity_dict in enumerate(activities):
+        hovertemplate, customdata = get_hoverdata(activity_dict, reversed=activity_dict['reversed'])
 
         # Use the same color for the altitude plot as in the map
         fig.add_trace(
@@ -396,15 +380,16 @@ def plot_collection_combined(collection_name, client, reload=False):
         "Strava Link",
     ]
     table_cells = []
-
-    for activity_id in activity_ids:
-        activity_dict = sp.import_activity(activity_id, client, reload=False)
+    for activity_dict in activities:
+        activity_id = activity_dict['id']
         distance_km = activity_dict["distance"] * 1e-3
         moving_time_h = activity_dict["moving_time"] / 3600
         elevation_gain_m = activity_dict["total_elevation_gain"]
         max_elevation_m = activity_dict["elev_high"]
         avg_heart_rate_bpm = activity_dict.get("average_heartrate", "N/A")
+        avg_heart_rate_bpm_str = f"{avg_heart_rate_bpm:.0f}" if avg_heart_rate_bpm is not None else "No data"
         max_heart_rate_bpm = activity_dict.get("max_heartrate", "N/A")
+        max_heart_rate_bpm_str = f"{max_heart_rate_bpm:.0f}" if max_heart_rate_bpm is not None else "No data"
         strava_link = f"https://www.strava.com/activities/{activity_id}"
         # Format the datetime object to the desired format
         date = datetime.fromisoformat(str(activity_dict["start_date"])).strftime(
@@ -414,7 +399,6 @@ def plot_collection_combined(collection_name, client, reload=False):
             "%H:%M"
         )
         # date = activity_dict['start_date'] #datetime.strptime(activity_dict['start_date'], '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d')
-
         table_cells.append(
             [
                 activity_dict["name"],
@@ -422,11 +406,11 @@ def plot_collection_combined(collection_name, client, reload=False):
                 date,
                 # time,
                 f"{distance_km:.1f}",
-                f"{moving_time_h:.0f}",
+                f"{moving_time_h:.1f}",
                 f"{elevation_gain_m:.0f}",
                 f"{max_elevation_m:.0f}",
-                avg_heart_rate_bpm,
-                max_heart_rate_bpm,
+                f"{avg_heart_rate_bpm_str}",
+                f"{max_heart_rate_bpm_str}",
                 strava_link,
             ]
         )
@@ -486,18 +470,13 @@ def plot_collection_combined(collection_name, client, reload=False):
     # Write to an HTML file
     with open(f'figures/html/{collection_name}_summary_table.html', 'w') as f:
         f.write(html_output)
-        
-    for activity_id in activity_ids:
-        activity_dict = sp.import_activity(activity_id, client, reload=False)
-        #print(activity_dict['description'])
+    for activity_dict in activities:
         pattern = r'⛰️\s*([^\(]+)\s*\(([\d,]+)\s*m\)'
         matches = re.findall(pattern, activity_dict['description'])
         # Process and print the matches
         for peak, elevation in matches:
             # Replace comma with dot and convert to float
             elevation_float = float(elevation.replace(',', '.'))
-            #print(f'Peak: {peak.strip()}, Elevation: {elevation_float}')
-    exit()
 
     # Adjust layout for the combined figure
     fig.update_layout(
@@ -538,15 +517,6 @@ def plot_collection_combined(collection_name, client, reload=False):
     png_path = f"figures/static/{collection_name}_map.png"
     map_fig.write_image(png_path)
 
-
-def update_all():
-    client = Client(access_token=tokens.ACCESS_TOKEN)
-    activity_ids = [trip for trip, _ in tr.trip_dicts.items()]
-    for activity_id in activity_ids:
-        print(f"Updating {activity_id}")
-        activity_dict = sp.import_activity(activity_id, client, reload=True)
-
-
 def main():
     # Set up the argument parser
     parser = argparse.ArgumentParser(description="Run the script with a collection.")
@@ -564,9 +534,6 @@ def main():
     # Parse the arguments
     args = parser.parse_args()
 
-    # Initialize the client
-    client = Client(access_token=tokens.ACCESS_TOKEN)
-
     # Get the collection name from the arguments
     collection = args.collection
     if collection == "all":
@@ -582,8 +549,9 @@ def main():
     else:
         collections = [collection]
     for collection in collections:
-        plot_collection_combined(collection, client, reload=False)
-        #save_collection_summary(collection, client, reload=False)
+        activities = sp.import_collection(collection, reload=False)
+        plot_collection_combined(collection, activities)
+        #save_collection_summary(collection, activities)
 
 
 if __name__ == "__main__":
