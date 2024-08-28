@@ -8,6 +8,7 @@ from stravalib import Client
 import re
 import os
 import pickle
+import pandas as pd
 import trips as tr
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -301,15 +302,15 @@ def plot_collection_combined(collection_name, client, reload=False):
     # Create subplots: 3 rows, 1 column
     ROW_ALTITUDE = 1
     ROW_MAP = 2
-    ROW_TABLE = 3
-    total_height = 1800  # Increased height to accommodate the table subplot
+    #ROW_TABLE = 3
+    total_height = 900  # Increased height to accommodate the table subplot
 
     fig = make_subplots(
-        rows=3,
+        rows=2,
         cols=1,
-        row_heights=[0.2, 0.7, 1.1],
-        vertical_spacing=0.03,
-        specs=[[{"type": "scatter"}], [{"type": "scattermapbox"}], [{"type": "table"}]],
+        row_heights=[0.25, 0.75],
+        vertical_spacing=0.05,
+        specs=[[{"type": "scatter"}], [{"type": "scattermapbox"}]],#, [{"type": "table"}]],
     )
 
     # Generate the map subplot
@@ -417,37 +418,86 @@ def plot_collection_combined(collection_name, client, reload=False):
         table_cells.append(
             [
                 activity_dict["name"],
+                # f'<a href="{strava_link}">{activity_dict["name"]}</a>',
                 date,
                 # time,
-                f"{distance_km:.2f}",
-                f"{moving_time_h:.2f}",
-                f"{elevation_gain_m:.2f}",
-                f"{max_elevation_m:.2f}",
+                f"{distance_km:.1f}",
+                f"{moving_time_h:.0f}",
+                f"{elevation_gain_m:.0f}",
+                f"{max_elevation_m:.0f}",
                 avg_heart_rate_bpm,
                 max_heart_rate_bpm,
                 strava_link,
             ]
         )
+    
+    df = pd.DataFrame(columns=table_header, data=table_cells)
+    # Define a function to format link with custom text
+    def format_link(url):
+        return f'<a href="{url}" target="_blank">View Activity</a>'
 
-    # Add table trace without changing the cell background color
-    fig.add_trace(
-        go.Table(
-            header=dict(
-                values=table_header,
-                fill_color="paleturquoise",
-                align="left",
-                font_size=12,
-            ),
-            cells=dict(
-                values=list(zip(*table_cells)),
-                fill_color="lavender",
-                align="left",
-                font_size=11,
-            ),
-        ),
-        row=ROW_TABLE,
-        col=1,
-    )
+    # Apply formatting to the Strava Link column
+    df['Strava Link'] = df['Strava Link'].apply(format_link)
+    # Convert DataFrame to HTML
+    html_table = df.to_html(escape=False, index=False)
+
+    # Define CSS styles
+    css_styles = """
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #04AA6D;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    """
+
+    # Combine CSS and HTML table
+    html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>{css_styles}</head><body>{html_table}</body></html>'
+
+    # Write to an HTML file
+    with open(f'figures/html/{collection_name}_summary_table.html', 'w') as f:
+        f.write(html_output)
+        
+    for activity_id in activity_ids:
+        activity_dict = sp.import_activity(activity_id, client, reload=False)
+        #print(activity_dict['description'])
+        pattern = r'⛰️\s*([^\(]+)\s*\(([\d,]+)\s*m\)'
+        matches = re.findall(pattern, activity_dict['description'])
+        # Process and print the matches
+        for peak, elevation in matches:
+            # Replace comma with dot and convert to float
+            elevation_float = float(elevation.replace(',', '.'))
+            #print(f'Peak: {peak.strip()}, Elevation: {elevation_float}')
+    exit()
 
     # Adjust layout for the combined figure
     fig.update_layout(

@@ -33,8 +33,12 @@ def get_topnav(collections,active_collection = ''):
 
 
 def get_trip_content(collection):
+    content = ""
     with open(f'figures/html/{collection}.html','r') as f:
-        return ''.join(f.readlines())
+        content += ''.join(f.readlines())
+    with open(f'figures/html/{collection}_summary_table.html','r') as f:
+        content += ''.join(f.readlines())
+    return content
 
 def emoji_to_html(emoji):
     # Convert each character in the flag emoji to its Unicode code point
