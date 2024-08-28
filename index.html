@@ -35,7 +35,7 @@ body {
 /* Responsive images: http://www.menucool.com/ui/responsive-image-grid-with-hover-effect */
 
 #rig {
-    max-width:90%;
+    max-width:100%;
     margin:0 auto; /*center aligned*/
     padding:0;
     font-size:0; /* Remember to change it back to normal font size if have captions */
@@ -46,6 +46,16 @@ body {
     display: inline-block;
     *display:inline;/*for IE6 - IE7*/
     width:25%;
+    vertical-align:middle;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+#rig li2 {
+    display: inline-block;
+    *display:inline;/*for IE6 - IE7*/
+    width:50%;
     vertical-align:middle;
     box-sizing:border-box;
     margin:0;
@@ -75,6 +85,10 @@ body {
     transform:scale(1.05);
 }
 
+#rig li2:hover .rig-img {
+    transform:scale(1.05);
+}
+
 /* If have the overlay layer */
 .rig-overlay {
     position: absolute;
@@ -91,6 +105,9 @@ body {
     transition:all 0.6s;
 }
 #rig li:hover .rig-overlay {
+    opacity:0.8;
+}
+#rig li2:hover .rig-overlay {
     opacity:0.8;
 }
 
@@ -119,6 +136,10 @@ body {
     transform:translateY(0px);
     opacity:0.9;
 }
+#rig li2:hover .rig-text {
+    transform:translateY(0px);
+    opacity:0.9;
+}
 
 @media (max-width: 9000px) {
     #rig li {
@@ -134,6 +155,12 @@ body {
 
 @media (max-width: 550px) {
     #rig li {
+        width:50%;
+    }
+}
+
+@media (max-width: 9000px) {
+    #rig li2 {
         width:50%;
     }
 }
@@ -180,7 +207,7 @@ margin: -70px 20px 20px 20px;
                             28 days, 282 h, 10.1 h/day<br>
                             6019 km, 215 km/day<br>
                             52114 hm, 1861 hm/day<br>
-                            19 countries:&#x1F1EE;&#x1F1F9;&#x1F1E7;&#x1F1EA;&#x1F1F2;&#x1F1F0;&#x1F1FD;&#x1F1F0;&#x1F1F1;&#x1F1EE;&#x1F1F8;&#x1F1EA;&#x1F1E8;&#x1F1ED;&#x1F1EC;&#x1F1F7;&#x1F1F8;&#x1F1EE;&#x1F1E6;&#x1F1F9;&#x1F1E9;&#x1F1EA;&#x1F1F9;&#x1F1F7;&#x1F1ED;&#x1F1F7;&#x1F1E6;&#x1F1F1;&#x1F1F3;&#x1F1F4;&#x1F1F3;&#x1F1F1;&#x1F1F2;&#x1F1EA;&#x1F1EB;&#x1F1F7;&#x1F1E9;&#x1F1F0;
+                            19 countries:&#x1F1F8;&#x1F1EA;&#x1F1F2;&#x1F1F0;&#x1F1F9;&#x1F1F7;&#x1F1F8;&#x1F1EE;&#x1F1ED;&#x1F1F7;&#x1F1F1;&#x1F1EE;&#x1F1FD;&#x1F1F0;&#x1F1EC;&#x1F1F7;&#x1F1E9;&#x1F1F0;&#x1F1E7;&#x1F1EA;&#x1F1E6;&#x1F1F9;&#x1F1EE;&#x1F1F9;&#x1F1E9;&#x1F1EA;&#x1F1F2;&#x1F1EA;&#x1F1F3;&#x1F1F4;&#x1F1EB;&#x1F1F7;&#x1F1E8;&#x1F1ED;&#x1F1F3;&#x1F1F1;&#x1F1E6;&#x1F1F1;
                         </span>
                     </a>
                 </li>
@@ -194,7 +221,7 @@ margin: -70px 20px 20px 20px;
                             21 days, 187 h, 8.9 h/day<br>
                             3782 km, 180 km/day<br>
                             37376 hm, 1780 hm/day<br>
-                            7 countries:&#x1F1F1;&#x1F1EE;&#x1F1EB;&#x1F1F7;&#x1F1E8;&#x1F1FF;&#x1F1E6;&#x1F1F9;&#x1F1E9;&#x1F1EA;&#x1F1E8;&#x1F1ED;&#x1F1EA;&#x1F1F8;
+                            7 countries:&#x1F1E9;&#x1F1EA;&#x1F1EA;&#x1F1F8;&#x1F1EB;&#x1F1F7;&#x1F1E8;&#x1F1ED;&#x1F1F1;&#x1F1EE;&#x1F1E8;&#x1F1FF;&#x1F1E6;&#x1F1F9;
                         </span>
                     </a>
                 </li>
@@ -250,7 +277,7 @@ margin: -70px 20px 20px 20px;
                             12 days, 72 h, 6.0 h/day<br>
                             366 km, 30 km/day<br>
                             22121 hm, 1843 hm/day<br>
-                            2 countries:&#x1F1E6;&#x1F1F9;&#x1F1E9;&#x1F1EA;
+                            2 countries:&#x1F1E9;&#x1F1EA;&#x1F1E6;&#x1F1F9;
                         </span>
                     </a>
                 </li>

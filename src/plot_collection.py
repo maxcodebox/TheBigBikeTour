@@ -250,6 +250,13 @@ def utc_to_local(utc_time, longitude, latitude):
 
     return local_time
 
+def extract_flag_emojis(text):
+    # Regular expression to match pairs of regional indicator symbols
+    flag_pattern = re.compile(r'[\U0001F1E6-\U0001F1FF]{2}')
+    flags = flag_pattern.findall(text)
+    if '🇪🇺' in flags:
+        flags.remove('🇪🇺')
+    return flags
 
 def save_collection_summary(collection_name,activities):
 
@@ -263,16 +270,9 @@ def save_collection_summary(collection_name,activities):
         "name": tr.collection_dict[collection_name]["name"],
         "flags": set(),
     }
-
     for activity_dict in activities:
         name = activity_dict["name"]
-        def extract_flag_emojis(text):
-            # Regular expression to match pairs of regional indicator symbols
-            flag_pattern = re.compile(r'[\U0001F1E6-\U0001F1FF]{2}')
-            flags = flag_pattern.findall(text)
-            if '🇪🇺' in flags:
-                flags.remove('🇪🇺')
-            return flags
+        
         for flag in extract_flag_emojis(name):
             collection_summary['flags'].add(flag)
         # date = datetime.fromisoformat(str(activity_dict['start_date'])).strftime("%Y-%m-%d")
@@ -285,6 +285,8 @@ def save_collection_summary(collection_name,activities):
         collection_summary["distance_km"] += activity_dict["distance"] * 1e-3
         collection_summary["moving_time_h"] += activity_dict["moving_time"] / (60 * 60)
         collection_summary["elevation_gain_m"] += activity_dict["total_elevation_gain"]
+        collection_summary['primary_photo_url'] = ''
+        
     collection_summary["days"] = len(collection_summary["dates"])
     with open(f"data/{collection_name}_summary.pkl", "wb") as f:
         pickle.dump(collection_summary, f)
@@ -464,12 +466,37 @@ def plot_collection_combined(collection_name, activities):
     </style>
     """
 
+    html_images = '<ul id="rig">'
+    for activity_dict in activities:
+        if activity_dict['photos']['count'] > 0:
+            flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
+            html_images += f"""
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="{activity_dict['photos']['primary']['urls']['600']}" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>{emoji_to_html(activity_dict["name"])}</b><br>
+                            {activity_dict['distance']*1e-3:.0f} km<br>
+                            {activity_dict['total_elevation_gain']:.0f} hm<br>
+                            {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+                            {flags_html}
+                        </span>
+                    </a>
+                </li>
+            """
+    html_images += '</ul>'
     # Combine CSS and HTML table
-    html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>{css_styles}</head><body>{html_table}</body></html>'
+    html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>{css_styles}</head><body>{html_table}<br>{html_images}</body></html>'
 
     # Write to an HTML file
     with open(f'figures/html/{collection_name}_summary_table.html', 'w') as f:
         f.write(html_output)
+    
     for activity_dict in activities:
         pattern = r'⛰️\s*([^\(]+)\s*\(([\d,]+)\s*m\)'
         matches = re.findall(pattern, activity_dict['description'])
