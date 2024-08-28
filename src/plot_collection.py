@@ -369,7 +369,7 @@ def plot_collection_combined(collection_name, activities):
     )
 
     # Generate the altitude subplot
-    N = 10
+    N = 50
     x0 = 0
 
     for idx,activity_dict in enumerate(activities):
