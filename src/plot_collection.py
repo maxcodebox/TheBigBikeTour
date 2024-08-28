@@ -36,6 +36,13 @@ def emoji_to_html(emoji):
     html_entities = ''.join(f'&#x{code_point:X};' for code_point in code_points)
     
     return html_entities
+def emoji_to_html_entities(text):
+    # Convert each character to its HTML entity if it's an emoji
+    return ''.join(
+        f'&#x{ord(char):X};' if ord(char) > 0x1F600 else char
+        for char in text
+    )
+
 
 def zoom_center(
     lons: tuple = None,
@@ -166,12 +173,30 @@ def get_hoverdata(activity_dict, reversed=False):
         # "<img src='%{customdata[4]}' width='600' height='400'>"
         "<extra></extra>"  # This removes the trace name from the hover text
     )
+    #print(activity_dict["description"])
+    # print(emoji_to_html_entities(insert_line_breaks(activity_dict["description"], max_length=80)))
+    # input_text = "I love 🍕 and 😄!"
+    # output_text = emoji_to_html_entities(input_text)
+    # print(output_text)
+    newline_char = '\n'
+    newline_char_html = emoji_to_html(newline_char)
+    period_char = '. '
+    period_char_html = emoji_to_html(period_char)
+    def fix_description(text):
+        text = emoji_to_html(text)
+        for char in ['\n','. ','! ',', ']:
+            char_html = emoji_to_html(char)
+            text = text.replace(char_html, f"{char_html}<br>")
+        for char in ['⛰️']:
+            char_html = emoji_to_html(char)
+            text = text.replace(char_html, f"<br>{char_html}")
+        return text
     customdata = [
         [
             emoji_to_html(activity_dict["name"]),  # Activity name
-            insert_line_breaks(
-                activity_dict["description"].replace("\n", "<br>"), max_length=80
-            ),  # Description
+            # insert_line_breaks(emoji_to_html(activity_dict["description"]), max_length=80),#.replace("\n", "<br>"),  # Description
+            #emoji_to_html(activity_dict["description"]).replace(emoji_to_html('⛰️'),f"<br>{emoji_to_html('⛰️')}").replace(newline_char_html,"<br>").replace(period_char_html,'.<br>'),#.replace("\n", "<br>"),
+            fix_description(activity_dict["description"]),
             round(activity_dict["distance"] * 1e-3, 1),  # Distance in km
             activity_dict["total_elevation_gain"],  # Elevation gain in meters
             reversed,
@@ -484,7 +509,6 @@ def plot_collection_combined(collection_name, activities):
                             {activity_dict['distance']*1e-3:.0f} km<br>
                             {activity_dict['total_elevation_gain']:.0f} hm<br>
                             {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-                            {flags_html}
                         </span>
                     </a>
                 </li>

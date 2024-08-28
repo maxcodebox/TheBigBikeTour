@@ -2,7 +2,6 @@
 
 * https://www.strava.com/settings/api
     * get current access token
-* http://www.strava.com/oauth/authorize?client_id=94146&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&activity:read_all
 * http://www.strava.com/oauth/authorize?client_id=94146&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all
 * https://web.postman.co/workspace/
     * GET https://www.strava.com/api/v3/athlete with Bearer ACCESS_TOKEN
