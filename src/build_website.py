@@ -85,7 +85,7 @@ def main():
                             {days} days, {collection_summary['moving_time_h']:.0f} h, {collection_summary['moving_time_h'] / days:.1f} h/day<br>
                             {collection_summary['distance_km']:.0f} km, {collection_summary['distance_km']/days:.0f} km/day<br>
                             {collection_summary['elevation_gain_m']:.0f} hm, {collection_summary['elevation_gain_m']/days:.0f} hm/day<br>
-                            {len(collection_summary['flags'])} {'countries' if len(collection_summary['flags']) > 1 else 'country'}:{flags_html}
+                            {max(1,len(collection_summary['flags']))} {'countries' if len(collection_summary['flags']) > 1 else 'country'}:{flags_html}
                         </span>
                     </a>
                 </li>

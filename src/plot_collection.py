@@ -283,6 +283,28 @@ def extract_flag_emojis(text):
         flags.remove('🇪🇺')
     return flags
 
+def plot_elevation_profile(activities):
+    for activity_dict in activities:
+        
+        fig = go.Figure()
+        # Extract the altitude and distance data
+        altitude = activity_dict["stream_dict"]["altitude"]
+        distance = activity_dict["stream_dict"]["distance"] * 1e-3
+        # Add a trace for this activity
+        fig.add_trace(go.Scatter(x=distance, y=altitude, mode='lines', name=activity_dict["name"],line=dict(color='black')))
+        # Update layout to remove axis labels and background color
+        fig.update_layout(
+            xaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
+            yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
+            plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot background
+            paper_bgcolor='rgba(0,0,0,0)',  # Transparent paper background
+            showlegend=False  # Remove the legend
+        )
+
+        # Save the plot as a small PNG file
+        fig.write_image(f"figures/static/{activity_dict['id']}_elevation_profile.png", format="png", width=800, height=400)
+
+
 def save_collection_summary(collection_name,activities):
 
     collection_summary = {
@@ -509,6 +531,7 @@ def plot_collection_combined(collection_name, activities):
                             {activity_dict['distance']*1e-3:.0f} km<br>
                             {activity_dict['total_elevation_gain']:.0f} hm<br>
                             {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+                            <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
                         </span>
                     </a>
                 </li>
@@ -601,6 +624,7 @@ def main():
         collections = [collection]
     for collection in collections:
         activities = sp.import_collection(collection, reload=False)
+        plot_elevation_profile(activities)
         plot_collection_combined(collection, activities)
         #save_collection_summary(collection, activities)
 
