@@ -572,7 +572,8 @@ def plot_collection_combined(collection_name, activities):
     """
 
     html_images = '<ul id="rig">'
-    for activity_dict in sorted(activities, key=lambda x: x['start_date']):
+    # for activity_dict in sorted(activities, key=lambda x: x['start_date']):
+    for activity_dict in activities:
         if activity_dict['photos']['count'] > 0:
             flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
             html_images += f"""
