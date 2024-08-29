@@ -14,7 +14,12 @@ def update_all():
         print(f"Updating {activity_id}")
         activity_dict = import_activity(activity_id, client, reload=True)
 
-def import_collection(collection_name, reload = False, sort = True):
+def import_collection(collection_name, reload = False):
+    
+    if 'sort_by' in tr.collection_dict[collection_name].keys():
+        sort_by = tr.collection_dict[collection_name]['sort_by']
+    else:
+        sort_by = 'location'
     
     client = Client(access_token=tokens.ACCESS_TOKEN)
     
@@ -67,8 +72,12 @@ def import_collection(collection_name, reload = False, sort = True):
             last_end_coords = (activities[closest_activity][2], activities[closest_activity][3])
     
     activity_arr = []
-    for activity_id in sorted_activities:
-        activity_arr.append(activity_dicts[activity_id])
+    if sort_by == 'location':
+        for activity_id in sorted_activities:
+            activity_arr.append(activity_dicts[activity_id])
+    elif sort_by == 'datetime':
+        #activity_arr = sorted(activity_dicts, key=lambda x: x['start_date'])
+        activity_arr = sorted(activity_dicts.values(), key=lambda x: x['start_date'])
     return activity_arr
 
 def import_activity(activity_id, client, reload = False, reversed = False):

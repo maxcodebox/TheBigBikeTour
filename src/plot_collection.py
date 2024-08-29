@@ -679,6 +679,7 @@ def main():
             "yokohama-fukuoka_2019",
             "bavarian-alp-traverse",
             "perla-hikes",
+            "ibiza_2023",
         ]
     else:
         collections = [collection]
@@ -686,7 +687,7 @@ def main():
         activities = sp.import_collection(collection, reload=False)
         plot_elevation_profile(activities)
         plot_collection_combined(collection, activities)
-        #save_collection_summary(collection, activities)
+        save_collection_summary(collection, activities)
 
 
 if __name__ == "__main__":

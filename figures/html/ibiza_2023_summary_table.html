@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #04AA6D;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    </head><body><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Name</th>
+      <th>Date</th>
+      <th>Distance (km)</th>
+      <th>Moving Time (h)</th>
+      <th>Elevation Gain (m)</th>
+      <th>Max Elevation (m)</th>
+      <th>Average Heart Rate (bpm)</th>
+      <th>Max Heart Rate (bpm)</th>
+      <th>Strava Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Evening Run</td>
+      <td>2023-11-08</td>
+      <td>9.4</td>
+      <td>0.8</td>
+      <td>6</td>
+      <td>5</td>
+      <td>134</td>
+      <td>145</td>
+      <td><a href="https://www.strava.com/activities/10184212131" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Lunch Run</td>
+      <td>2023-11-09</td>
+      <td>21.2</td>
+      <td>1.9</td>
+      <td>49</td>
+      <td>12</td>
+      <td>153</td>
+      <td>172</td>
+      <td><a href="https://www.strava.com/activities/10188508424" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Evening Run</td>
+      <td>2023-11-11</td>
+      <td>8.6</td>
+      <td>0.9</td>
+      <td>11</td>
+      <td>2</td>
+      <td>126</td>
+      <td>139</td>
+      <td><a href="https://www.strava.com/activities/10201453185" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Valencia to Ibiza</td>
+      <td>2023-11-12</td>
+      <td>146.9</td>
+      <td>17.8</td>
+      <td>72</td>
+      <td>3</td>
+      <td>58</td>
+      <td>132</td>
+      <td><a href="https://www.strava.com/activities/10209283997" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Morning Sail</td>
+      <td>2023-11-13</td>
+      <td>9.0</td>
+      <td>1.9</td>
+      <td>9</td>
+      <td>6</td>
+      <td>69</td>
+      <td>136</td>
+      <td><a href="https://www.strava.com/activities/10210461413" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Morning Run</td>
+      <td>2023-11-14</td>
+      <td>10.2</td>
+      <td>1.0</td>
+      <td>181</td>
+      <td>133</td>
+      <td>154</td>
+      <td>178</td>
+      <td><a href="https://www.strava.com/activities/10215286376" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Ibiza beach biking</td>
+      <td>2023-11-14</td>
+      <td>20.2</td>
+      <td>2.0</td>
+      <td>194</td>
+      <td>59</td>
+      <td>99</td>
+      <td>148</td>
+      <td><a href="https://www.strava.com/activities/10220935820" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Ibiza to Formentera</td>
+      <td>2023-11-15</td>
+      <td>49.0</td>
+      <td>7.2</td>
+      <td>96</td>
+      <td>4</td>
+      <td>67</td>
+      <td>111</td>
+      <td><a href="https://www.strava.com/activities/10223047971" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Morning Run in Formentera</td>
+      <td>2023-11-17</td>
+      <td>10.3</td>
+      <td>0.8</td>
+      <td>14</td>
+      <td>7</td>
+      <td>169</td>
+      <td>186</td>
+      <td><a href="https://www.strava.com/activities/10232455929" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Formentera to Alcossebre</td>
+      <td>2023-11-17</td>
+      <td>198.7</td>
+      <td>26.6</td>
+      <td>67</td>
+      <td>4</td>
+      <td>64</td>
+      <td>123</td>
+      <td><a href="https://www.strava.com/activities/10239392263" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Afternoon Run</td>
+      <td>2023-11-18</td>
+      <td>10.8</td>
+      <td>1.1</td>
+      <td>104</td>
+      <td>53</td>
+      <td>153</td>
+      <td>176</td>
+      <td><a href="https://www.strava.com/activities/10240530649" target="_blank">View Activity</a></td>
+    </tr>
+    <tr>
+      <td>Morning Run</td>
+      <td>2023-11-19</td>
+      <td>20.2</td>
+      <td>2.8</td>
+      <td>774</td>
+      <td>565</td>
+      <td>145</td>
+      <td>183</td>
+      <td><a href="https://www.strava.com/activities/10244023732" target="_blank">View Activity</a></td>
+    </tr>
+  </tbody>
+</table><br><ul id="rig">
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10184212131">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/cu5nGkf7heJLTD2TW3TD7hVosoLwASzRoUCsgW_dhyI-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x45;&#x76;&#x65;&#x6E;&#x69;&#x6E;&#x67;&#x20;&#x52;&#x75;&#x6E;</b><br>
+                            9 km<br>
+                            6 hm<br>
+                             0.8 h<br>
+                            <img src="figures/static/10184212131_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10188508424">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/pFaZmiJYNs5glGOgfZVJLCnL3rHJkzFxzSMuBZW3Mhk-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x4C;&#x75;&#x6E;&#x63;&#x68;&#x20;&#x52;&#x75;&#x6E;</b><br>
+                            21 km<br>
+                            49 hm<br>
+                             1.9 h<br>
+                            <img src="figures/static/10188508424_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10209283997">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/9f0umRIKNai58OIkMBdlQq8BQvChAGDIsYlg9OEx8hQ-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x56;&#x61;&#x6C;&#x65;&#x6E;&#x63;&#x69;&#x61;&#x20;&#x74;&#x6F;&#x20;&#x49;&#x62;&#x69;&#x7A;&#x61;</b><br>
+                            147 km<br>
+                            72 hm<br>
+                             17.8 h<br>
+                            <img src="figures/static/10209283997_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10215286376">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/aEmeOIMK0mfRDg9CAve77UobQAUDeSjd2YiX8qf6Agg-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x4D;&#x6F;&#x72;&#x6E;&#x69;&#x6E;&#x67;&#x20;&#x52;&#x75;&#x6E;</b><br>
+                            10 km<br>
+                            181 hm<br>
+                             1.0 h<br>
+                            <img src="figures/static/10215286376_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10220935820">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/FysNe_jNIM-YBG_V14Nlu0_DR7B9U5jCum3e7WSBN9Y-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x49;&#x62;&#x69;&#x7A;&#x61;&#x20;&#x62;&#x65;&#x61;&#x63;&#x68;&#x20;&#x62;&#x69;&#x6B;&#x69;&#x6E;&#x67;</b><br>
+                            20 km<br>
+                            194 hm<br>
+                             2.0 h<br>
+                            <img src="figures/static/10220935820_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10223047971">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://image.mux.com/k9LI5sjfVxFjdAfV9HSdRiCCvCy01ziOJpHTnnvpofgw/thumbnail.jpg?width=337&height=600&fit_mode=preserve&time=0" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x49;&#x62;&#x69;&#x7A;&#x61;&#x20;&#x74;&#x6F;&#x20;&#x46;&#x6F;&#x72;&#x6D;&#x65;&#x6E;&#x74;&#x65;&#x72;&#x61;</b><br>
+                            49 km<br>
+                            96 hm<br>
+                             7.2 h<br>
+                            <img src="figures/static/10223047971_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10239392263">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/hxLYWV-VvJeQJvtUBdwVY8AgNhGdNIRBazor1vUo6hI-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x46;&#x6F;&#x72;&#x6D;&#x65;&#x6E;&#x74;&#x65;&#x72;&#x61;&#x20;&#x74;&#x6F;&#x20;&#x41;&#x6C;&#x63;&#x6F;&#x73;&#x73;&#x65;&#x62;&#x72;&#x65;</b><br>
+                            199 km<br>
+                            67 hm<br>
+                             26.6 h<br>
+                            <img src="figures/static/10239392263_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            
+                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+                    <a class="rig-cell" href="https://www.strava.com/activities/10244023732">
+                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+                            <img class="rig-img" src="https://dgtzuqphqg23d.cloudfront.net/416uQ37ar3U4jJ76oLnf2LkzB_7-qppsHRt1jvZu1bM-768x576.jpg" 
+                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+                        </div>
+                        <span class="rig-overlay"></span>
+                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+                            <b>&#x4D;&#x6F;&#x72;&#x6E;&#x69;&#x6E;&#x67;&#x20;&#x52;&#x75;&#x6E;</b><br>
+                            20 km<br>
+                            774 hm<br>
+                             2.8 h<br>
+                            <img src="figures/static/10244023732_elevation_profile.png" width="90%" height="20%">
+                        </span>
+                    </a>
+                </li>
+            </ul></body></html>

@@ -52,7 +52,7 @@ def emoji_to_html(emoji):
 def main():
 
 
-    selected_collections = ['norway-turkey','berlin-tarifa','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse','perla-hikes']
+    selected_collections = ['norway-turkey','berlin-tarifa','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse','perla-hikes','ibiza_2023']
     #selected_collections = ['norway-turkey']
     with open('templates/INDEX_TEMPLATE3.html','r') as f:
         index_template = ''.join(f.readlines())
