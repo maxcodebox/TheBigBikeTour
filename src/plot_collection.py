@@ -290,20 +290,66 @@ def plot_elevation_profile(activities):
         # Extract the altitude and distance data
         altitude = activity_dict["stream_dict"]["altitude"]
         distance = activity_dict["stream_dict"]["distance"] * 1e-3
+        
         # Add a trace for this activity
-        fig.add_trace(go.Scatter(x=distance, y=altitude, mode='lines', name=activity_dict["name"],line=dict(color='black')))
+        fig.add_trace(go.Scatter(x=distance, y=altitude, mode='lines', name=activity_dict["name"], line=dict(color='black')))
+        
+        # Find the minimum and maximum altitudes
+        min_alt = np.amin(altitude)
+        max_alt = np.amax(altitude)
+        
+        # Get the indices of the min and max altitude points
+        min_idx = np.argmin(altitude)
+        max_idx = np.argmax(altitude)
+        
+        # Get the corresponding distances
+        min_dist = distance[min_idx]
+        max_dist = distance[max_idx]
+        
+        # Add dashed lines at min and max altitude
+        d0 = distance[0]
+        d1 = distance[-1]
+        # fig.add_trace(go.Scatter(x=[d0, d1], y=[min_alt, min_alt], mode='lines', name=activity_dict["name"], line=dict(color='gray', dash='dot')))
+        # fig.add_trace(go.Scatter(x=[d0, d1], y=[max_alt, max_alt], mode='lines', name=activity_dict["name"], line=dict(color='gray', dash='dot')))
+        font=dict(size=24)
+        # Add text annotation above the highest point
+        fig.add_annotation(
+            x=max_dist,
+            y=max_alt,
+            text=f"{max_alt:.0f}m",
+            font=font,
+            showarrow=True,
+            arrowhead=2,
+            arrowwidth=2,
+            ax=0,
+            ay=-40  # Offset the text above the point
+        )
+        
+        # Add text annotation below the lowest point
+        fig.add_annotation(
+            x=min_dist,
+            y=min_alt,
+            text=f"{min_alt:.0f} m",
+            font=font,
+            showarrow=True,
+            arrowhead=2,
+            arrowwidth=2,
+            ax=0,
+            ay=40  # Offset the text below the point
+        )
+        
         # Update layout to remove axis labels and background color
         fig.update_layout(
             xaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
             yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
             plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot background
             paper_bgcolor='rgba(0,0,0,0)',  # Transparent paper background
-            showlegend=False  # Remove the legend
+            showlegend=False,  # Remove the legend
+            margin=dict(l=0, r=0, t=0, b=40),  # Set all margins to zero
         )
 
         # Save the plot as a small PNG file
         fig.write_image(f"figures/static/{activity_dict['id']}_elevation_profile.png", format="png", width=800, height=400)
-
 
 def save_collection_summary(collection_name,activities):
 
@@ -397,11 +443,17 @@ def plot_collection_combined(collection_name, activities):
     for idx,activity_dict in enumerate(activities):
         hovertemplate, customdata = get_hoverdata(activity_dict, reversed=activity_dict['reversed'])
 
+        if activity_dict['reversed']:
+            x = activity_dict["stream_dict"]["distance"][-1] - activity_dict["stream_dict"]["distance"][::-1]
+            y = activity_dict["stream_dict"]["altitude"][::-1]
+        else:
+            x = activity_dict["stream_dict"]["distance"]
+            y = activity_dict["stream_dict"]["altitude"]
         # Use the same color for the altitude plot as in the map
         fig.add_trace(
             go.Scatter(
-                x=(activity_dict["stream_dict"]["distance"][::N] + x0) * 1e-3,
-                y=activity_dict["stream_dict"]["altitude"][::N],
+                x=(x[::N] + x0) * 1e-3,
+                y=y[::N],
                 mode="lines",
                 line=dict(width=4.5, color=colors[idx]),  # Apply the same color
                 customdata=customdata
@@ -465,6 +517,12 @@ def plot_collection_combined(collection_name, activities):
         )
     
     df = pd.DataFrame(columns=table_header, data=table_cells)
+    # Convert 'Date' column to datetime format (if not already in datetime format)
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Sort the DataFrame by the 'Date' column in ascending order
+    df = df.sort_values(by='Date')
+
     # Define a function to format link with custom text
     def format_link(url):
         return f'<a href="{url}" target="_blank">View Activity</a>'
@@ -514,7 +572,7 @@ def plot_collection_combined(collection_name, activities):
     """
 
     html_images = '<ul id="rig">'
-    for activity_dict in activities:
+    for activity_dict in sorted(activities, key=lambda x: x['start_date']):
         if activity_dict['photos']['count'] > 0:
             flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
             html_images += f"""
@@ -619,6 +677,7 @@ def main():
             "hue-hcmc_2016",
             "yokohama-fukuoka_2019",
             "bavarian-alp-traverse",
+            "perla-hikes",
         ]
     else:
         collections = [collection]

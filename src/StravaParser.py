@@ -47,8 +47,8 @@ def import_collection(collection_name, reload = False, sort = True):
         for activity_id,_ in activities.items():
             if activity_id in sorted_activities:
                 continue
-            for reversed in [True, False]:
-                if reversed:
+            for _reversed in [True, False]:
+                if _reversed:
                     curr_coords = (activities[activity_id][2], activities[activity_id][3])
                 else:
                     curr_coords = (activities[activity_id][0], activities[activity_id][1])
@@ -57,10 +57,9 @@ def import_collection(collection_name, reload = False, sort = True):
                 if distance < min_distance:
                     min_distance = distance
                     closest_activity = activity_id
-                    activity_reversed = reversed
+                    activity_reversed = _reversed
         sorted_activities.append(closest_activity)
-        
-        activity_dicts[closest_activity]['reversed'] = reversed
+        activity_dicts[closest_activity]['reversed'] = activity_reversed
         sorted_activities_reversed.append(activity_reversed)
         if activity_reversed:
             last_end_coords = (activities[closest_activity][0], activities[closest_activity][1])
