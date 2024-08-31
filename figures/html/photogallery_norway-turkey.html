@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Photo Galleries</title>
+    <style>
+        gallery-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #gallery-container {
+            width: 80%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+            background-color: #e3f2e1; /* Light green background */
+            border-radius: 15px; /* Rounded corners */
+            padding: 20px; /* Padding around gallery content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .photo-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .large-photo-container {
+            width: 75%;
+            padding-bottom: 50%; /* Aspect ratio 3:2 */
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #ddd;
+        }
+        .large-photo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Vertically center-align items */
+            gap: 15px; /* Space between items */
+            margin-bottom: 20px; /* Space below the container */
+        }
+        .logo {
+            height: 24px; /* Set a uniform height for icons */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle; /* Aligns the image with the text */
+            display: inline-block; /* Allows for vertical alignment */
+        }
+        .info-text {
+            font-size: 16px; /* Adjust font size as needed */
+            line-height: 24px; /* Align text height with icon */
+        }
+        .elevation-photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            align-items: center;
+        }
+        .elevation-photo {
+            max-width: 80%;
+            max-height: 300px;
+            /* Ensures the image maintains its aspect ratio without scaling or cropping */
+            object-fit: contain;
+        }
+        .thumbnail-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .thumbnail {
+            max-height: 200px;
+            width: 18%;
+            margin: 1%;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .thumbnail.active-thumbnail {
+            border: 3px solid #4CAF50; /* Green border for active thumbnail */
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<gallery-body>
+    <!-- Photo galleries -->
+    
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Røldal to Bergen 🚴🇪🇺🇳🇴
+                    <a href="https://www.strava.com/activities/7603766442" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">216 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2618 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">08:47</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7603766442_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery0">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/awJB59gp0Eq-Hk5ru1pLuBPU-ZBJnEFHpM4jZ7cdPLI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/awJB59gp0Eq-Hk5ru1pLuBPU-ZBJnEFHpM4jZ7cdPLI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://image.mux.com/L402UC8w2m7T32y6c018nlh1IqQlPLUa9ukArRA9nm02Cw/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/dUoJnN20v0DJxbV1X49t2wO_1vpxPU1rfteB1lJ41OI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    To Røldal 🚴🇪🇺🇳🇴
+                    <a href="https://www.strava.com/activities/7591809739" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">106 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1702 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:12</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7591809739_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery1">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/PFl6wwoZV5_r2TukH2fd-mzQapn6ewU2s_m-NB0Qp14-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/PFl6wwoZV5_r2TukH2fd-mzQapn6ewU2s_m-NB0Qp14-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/O2wg_aRwgm3mK-Igungm0izI4JwxtqunwvoIOjAvr-A-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/udUgg7sx9L_HE0vEe26Y1XkIYOug9k0TmCCZNw9nR4w-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/VGLBhRGGHXDEfhH2vKtG5cHtfYbCMjFLXwI6Vw5va1Q-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/3ksA_w_QwyvpT76p6UYB7KduUyhivDvo_uGTIivoLjM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/0w2YDCPwCMyAMtF_hGbC1je673L6fqdJak3GkGR8a1A-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Moss to Totak 🚴🇪🇺🇳🇴
+                    <a href="https://www.strava.com/activities/7588727912" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">203 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2831 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">10:11</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7588727912_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery2">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/1hUUO9j3fA3LN2uxcuMVyD4u1PEYumy5djMgdgFIUVk-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/1hUUO9j3fA3LN2uxcuMVyD4u1PEYumy5djMgdgFIUVk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/OGJbIJpLYRMyRnkgWy2r4wrVJ4xlKNIVierL9HpwY5g-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/DSNFmUU6XrX7uE3liyxAusynE8izz2tVnoQ1usCE7qM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Oslo to Strömstad 🚴🇪🇺🇳🇴🇸🇪
+                    <a href="https://www.strava.com/activities/7609035405" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">146 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1218 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:41</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7609035405_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery3">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/vvmz7UzAn6oFoi4YAxjebnkrF_9OLeL23fK-nSCwEmI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/vvmz7UzAn6oFoi4YAxjebnkrF_9OLeL23fK-nSCwEmI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Sightseeing in Denmark 🚴🇪🇺🇩🇪🇩🇰
+                    <a href="https://www.strava.com/activities/7575170664" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">654 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1870 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">23:56</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7575170664_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery4">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/hsQjasmCTiyOY14zLuJ9dj5bsFJA1tXkMy1l8a_6NlQ-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/hsQjasmCTiyOY14zLuJ9dj5bsFJA1tXkMy1l8a_6NlQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/MWwDQiXA1FiZTXSQzcXc835SHqyOakew9FvbnvPRWoM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/4G2iygL05UYOUodYE_i_hoUpWJOD-Z3D71Jz2G2OXsg-1536x2048.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/HWTBpGeyuXsyf4ieBApfhCyIH7cATfaNf-GXBMTfJns-2048x1151.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/YjDEUs9rQZOPuMkNDq_ADVvPKBdvDwFM53RcqJmvMrc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/Z_R1-SnfEQPfy7DMEEQqB9119Cib53g25ObDisnSxBM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://image.mux.com/ojadWMOgGpFKP6uqSySms1VHhELTiYdNRS02Ry02dJN3U/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 6"><img src="https://dgtzuqphqg23d.cloudfront.net/rNWHsi_CHQxW5Uugyn8HPiRpCWBNcvgCb5VLDTdRWi0-2048x1534.jpg" class="thumbnail" alt="Thumbnail 7">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Short warmup ride (escaping Hamburg) 🚴🇪🇺🇩🇪
+                    <a href="https://www.strava.com/activities/7565316218" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">45 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">121 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">02:07</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7565316218_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery5">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/1uD-lw6TaR1C3Nr3lIxF-FRQ0sFU8PM4tLR-ZfG85JY-2048x1538.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/1uD-lw6TaR1C3Nr3lIxF-FRQ0sFU8PM4tLR-ZfG85JY-2048x1538.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    1. Hamburg - Oldenburg 🚴🇪🇺🇩🇪
+                    <a href="https://www.strava.com/activities/7067014667" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Borgsberg (49 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">206 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">702 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">08:34</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7067014667_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery6">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/srzqx965CARMIXnD5RxbOp5xkal1fYr20UPhoV7nVxI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/srzqx965CARMIXnD5RxbOp5xkal1fYr20UPhoV7nVxI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/L6o7QYak4AlZQVqtYXGcr8f4abftgugH2O8b4jiH8vg-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/66NogZiD2uIbq55B7bkH3ObhGY_G9BtRkHxoeeAPecY-1152x2048.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    2. Oldenburg - Brussels 🚴🇪🇺🇩🇪🇳🇱🇧🇪
+                    <a href="https://www.strava.com/activities/7073100394" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Broken clouds, 6°C, Feels like 4°C, Humidity 83%, Wind 2m/s from NNE - by Klimat.app</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">371 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">512 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">15:58</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7073100394_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery7">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/u9A-MH49B2Y1le-i1nPSgwnAY5mPwrjrXJnRLPWtQzo-2048x1539.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/u9A-MH49B2Y1le-i1nPSgwnAY5mPwrjrXJnRLPWtQzo-2048x1539.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/UMLXDwIyaBRAvrIYUs-IJA1uT5Zn6IbaZW2WqCi57-8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/55MDlaFZi5vJ4618ix9zl4HvSU9kiYsaFT1rrpxtvKQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/cWUeVXepynxGN7N2FHUmIR9ZvDlbONf1j3SPKv8GSAE-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/A6MjrF8jYoF0c2az4R1BS-BxmnWh69IKiFtY7wfp7Cw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    3. Brussels - Paris 🚴🇪🇺🇧🇪🇫🇷
+                    <a href="https://www.strava.com/activities/7078529322" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Clear sky, 4°C, Feels like 4°C, Humidity 86%, Wind 1m/s from NE - by Klimat.app</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">332 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2236 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">16:13</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7078529322_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery8">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/cma-ee7QL1xjIVosU4qppQ-wHiMXY-244-FWFcuzJy4-1529x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/cma-ee7QL1xjIVosU4qppQ-wHiMXY-244-FWFcuzJy4-1529x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/qLawzyhJ4PAhh08wgLtSALoyetWQiXdYDrWEaxHuwzo-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/VUVn_f5qt3ybQG78iu7SIU49jUCkYZvcXPNlnT3dC3M-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/5mwW9h7uPo_N6KKq-0BnBi7ou2me1nH5iEDOs2aI0tM-2048x1539.jpg" class="thumbnail" alt="Thumbnail 3">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Connecting the trips 🚴🇪🇺🇫🇷
+                    <a href="https://www.strava.com/activities/7352360345" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>-- myWindsock Report --
+Weather Impact: -11.8%
+Headwind: 7% @ 3-4.3m/s
+Longest Headwind: 0m 0s
+Air Speed: 27.5km/h
+Temp: 24.2-24.7°C
+Precip: 7% @ 0.08 Inch/hr
+-- END --</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">20 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">118 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:41</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7352360345_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery9">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/KGhc4hH1sj1aU1JNcYBnlg9c7OMiru5TTohPcoShrGg-2048x1527.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/KGhc4hH1sj1aU1JNcYBnlg9c7OMiru5TTohPcoShrGg-2048x1527.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    24h Paris to Geneva 🚴🇪🇺🇫🇷🇨🇭
+                    <a href="https://www.strava.com/activities/7328018729" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Första cyklingen genom natten. Allt funkade bra, fast det hade varit lättare att cykla andra hållet för att slippa bergen sista 100km
+
+2 bananas
+2 Oreo packs
+5 gels
+6 müsli bars
+5 peanut butter, jam, banana, syrup, double sandwiches
+200g nuts
+4 caffeine pills
+4 water stops —> ~18 bottles of water. 
+9 electrolyte tablets
+2 carbohydrate tablets
+1 monster white
+
+-- myWindsock Report --
+Weather Impact: -0.3%
+Headwind: 73% @ 2-4.5m/s
+Longest Headwind: 05h 18m 30s</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">509 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">4533 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">23:30</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7328018729_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery10">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/hRQVwmvARAOVc4zMGiYsvo6k4ryjqCX2XwvC56JG4G4-2048x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/hRQVwmvARAOVc4zMGiYsvo6k4ryjqCX2XwvC56JG4G4-2048x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/dc0HIdoSz1L3YO4-LTg2P1GYkEtxhvK1IFooE_RPNoI-1536x2048.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/DcMCGgE1t0QDWmJnTkjzi2M_vlta6BHwqkVBilsKM-o-1536x2048.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/Lu-zQdgIMEszcYuXSyTuUt-0_vI3hAuM59bdJGGHtoI-1536x2048.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/Dhz0PAgBaugLObWKv2e2acwR_4GBeOOAG8VROh4M-5w-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/UasBjFwbM2-7UkAzvX9ZORjW2s6G936gwZ-qnbQ0hu0-2048x1680.jpg" class="thumbnail" alt="Thumbnail 5">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Col de Sanetsch to CERN 🚴🇪🇺🇨🇭
+                    <a href="https://www.strava.com/activities/1133646946" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">156 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1873 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:25</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/1133646946_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Sion to Col de Sanetsch (2133m elevation gain) 🚴🇪🇺🇨🇭
+                    <a href="https://www.strava.com/activities/1131819135" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">30 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2133 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">02:58</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/1131819135_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery12">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/tHDPU-X4HUALiffk7O2Xf09uremzFueCeaiD8D_C8Yk-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/tHDPU-X4HUALiffk7O2Xf09uremzFueCeaiD8D_C8Yk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/s30kpt3MsXmokk0DfzU8yXCi23L91SZgnb9rVR6k_9M-2048x1364.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/6JlZapgKzP2JxkYw3pC39yKus95ZwzbbxzHli6Bspbg-2048x1364.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    1. From Switzerland, over Furkapass to Lichtenstein-Austria 🚴🇪🇺🇨🇭🇦🇹🇱🇮
+                    <a href="https://www.strava.com/activities/7787652169" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Furkapass (2,436 m) • ⛰️ Oberalppass (2,044 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">324 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">3490 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">15:21</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7787652169_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery13">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/M-OVez7QF8kj3nGrQvYZKaJQHOyyJ_VA_aza39eNDrE-2048x1534.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/M-OVez7QF8kj3nGrQvYZKaJQHOyyJ_VA_aza39eNDrE-2048x1534.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/sbFzoN8VErXf8VlRCMNOVTlBHBBjIQ2nRh8il2vFKZQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/KijXOC7tI6I5P3Fj2_bCDfRdT5TmoG_VhKRdxg6msaY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/4kOHFaQ2KD_lLzdkqVHXK-ZTPpXDpXqhyp_t7rud514-1536x2048.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/RISKwxNSzfKGLlOiCwoJio7ByiHxMcFBApojXrQRmTc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    2. Rainy ride home (Bodensee to Munich) 🚴🇪🇺🇦🇹🇩🇪
+                    <a href="https://www.strava.com/activities/7791850673" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Europe almost finished</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">209 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1368 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">09:12</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/7791850673_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery14">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/4QiPkH__4oDRr4RBFW8CCUAGL0B2tjQRwQaotC_4QPs-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/4QiPkH__4oDRr4RBFW8CCUAGL0B2tjQRwQaotC_4QPs-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/BHRsJL21fDh4Hxbx0QXFnnhe7J-Sra6rW7DjFOPn0vU-1536x2048.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/mRu7vAiCeb55PjWlabrOpSTvMR4_cmmiFXr-ui5d-a8-1321x2048.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 1 - BBQ by Tegernsee 🚴🇪🇺🇩🇪
+                    <a href="https://www.strava.com/activities/5715851214" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">73 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">420 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">03:06</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5715851214_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery15">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/oFflRTqrtrpMA4W8s8xVBX5hvJj6dVPF8-LMNnyhiTU-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/oFflRTqrtrpMA4W8s8xVBX5hvJj6dVPF8-LMNnyhiTU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 2: Tegensee to Fusch 🚴🇪🇺🇩🇪🇦🇹
+                    <a href="https://www.strava.com/activities/5721348134" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Ursprungpass (836 m) • ⛰️ Pass Grießen (975 m) • ⛰️ Pass Grießen (975 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">153 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1396 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:48</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5721348134_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery16">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/9oCd1Gq95sW9lcsDlAdor9GSSZaf_PYrvevbl-aLeBc-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/9oCd1Gq95sW9lcsDlAdor9GSSZaf_PYrvevbl-aLeBc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/856YSDfFRj90m1yOVTDYh-0-XLfEHNFaGrUCurf9rWQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/EG6FMDPKPSfLLSa0F5ZrfqKf9exjBqdL_1SViNf9JFk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/4YSZ-Ie7A_iFsnXK9te-N3KN8e_jNJ5C2lKmyrJ04TI-2048x1539.jpg" class="thumbnail" alt="Thumbnail 3">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 3.1 - Grossglockner 🚴🇪🇺🇦🇹
+                    <a href="https://www.strava.com/activities/5726139628" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Törlkopf (2,455 m) • ⛰️ Hochtor (2,504 m) • ⛰️ Hochtor (2,576 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">64 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1945 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">04:23</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5726139628_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery17">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/kbLJLgMNbE-sOYQJWljOyBRRWypHag9IFR0mX-zUnEg-2048x1539.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/kbLJLgMNbE-sOYQJWljOyBRRWypHag9IFR0mX-zUnEg-2048x1539.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/08AhTWN47L2gHXgiUP-h9A23KKDY-5AaKuFL0HeQwJ8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/nIlm97rZAz6s7NntYmUbKEhZxYz2oL9bdbAQsanbHTs-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Walk with a broken man (he crashed) 🚴🇪🇺🇦🇹
+                    <a href="https://www.strava.com/activities/12254575668" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">1 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">16 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:15</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/12254575668_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 3.2 🚴🇪🇺🇦🇹
+                    <a href="https://www.strava.com/activities/5727831041" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">41 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">436 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:57</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5727831041_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery19">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/oK2AOqGG93ob5lxPVbdv_zuYvc45dmAx4Y-H-n4bzNA-1536x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/oK2AOqGG93ob5lxPVbdv_zuYvc45dmAx4Y-H-n4bzNA-1536x2048.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 4 - Italy 🚴🇪🇺🇦🇹🇮🇹
+                    <a href="https://www.strava.com/activities/5733598831" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Gailbergsattel (981 m) • ⛰️ Passo di Monte Croce Carnico / Plöckenpass (1,360 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">184 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1534 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">08:45</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5733598831_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery20">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/PiC7sg-QpfeMNm82W01f8dT003nWnoNp0QwNlyDhWcI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/PiC7sg-QpfeMNm82W01f8dT003nWnoNp0QwNlyDhWcI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/B9V-iyLp5aGGMVXd1WOJRc6jQ_whU1YzCE9Eps40yhU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/5F_NyEw64r4M16HwIX1Nhi366TluScLFoh3DME-TgQg-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 5 - Trieste - Slovenia - Cres 🚴🇪🇺🇮🇹🇸🇮🇭🇷
+                    <a href="https://www.strava.com/activities/5738696741" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Gradec (536 m) • ⛰️ Kozamor (640 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">147 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1832 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">07:26</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5738696741_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery21">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/JTOOGMdQGlUiJkiRMuZ-XN2DSOLTtOtCZ2-_nrHnvsE-2048x1150.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/JTOOGMdQGlUiJkiRMuZ-XN2DSOLTtOtCZ2-_nrHnvsE-2048x1150.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/5eGnANkIC-hmQk5U1czAd93iCxHJPtDzAasHpgOTTOo-2048x1152.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/wxPLyU6bMVmRn10hi9OJAWMFqUD9nrIm5343727GW4Y-2048x1152.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/-mhtfX9W4jM1-9fK9RzZDsLbHgLWweOuRYNoJn3joJw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 6.1 - Cres - Mali Losinj 🚴🇪🇺🇭🇷
+                    <a href="https://www.strava.com/activities/5745320059" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">60 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">860 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">03:16</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5745320059_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery22">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/l-aug0AoHAlYpkH0o1GB2DGlWlGE2tmuzXpiBH3obbU-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/l-aug0AoHAlYpkH0o1GB2DGlWlGE2tmuzXpiBH3obbU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/Q9jLdx5pWZW20OMyd58Ddl3Q2AktyINp_R9v-P-_CdU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/XlS-S38JLmZrWdjx1Gyfh5BsN3qvLB1SiWU5GlBGFBc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Ferry - Mali Losinj - Zadar
+                    <a href="https://www.strava.com/activities/5745332772" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">94 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">258 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:09</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5745332772_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Day 7 - Zadar - Dubrovnik 🚴🇪🇺🇭🇷
+                    <a href="https://www.strava.com/activities/5750059027" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">361 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">3076 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">15:24</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/5750059027_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery24">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/izwl3FMw1BwtJ8y8cHbky2ScyiW6cw_i0xgTexT1moU-2048x1150.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/izwl3FMw1BwtJ8y8cHbky2ScyiW6cw_i0xgTexT1moU-2048x1150.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/u-sGcKqRBMrZ-dNrpwKMzAdlAeo-JqWg_kGpynbQyrQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/f3uX9DO_Ox_Fvx815yY7DQZwIFb0bjUd1mAUKyaGRuY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/QVcTeOvJkMNvnYfo5zIoueMUWq47D6GPYkXq4pnxY7E-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/8-eJc7-gOLJhQVB8OIZU-v19VexnpEjRA8R5EofRO0I-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/YafC8hZV3OI86-NplMegxc81plz1e2-9FL_06nqTACc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/D-NoQQ-P16Zv1Aeu8RJ6a6A6-TJq9e0JynJFY-e3hZI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 6">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Dubrovnik to Podgorica 🚴🇪🇺🇭🇷🇲🇪
+                    <a href="https://www.strava.com/activities/8114329845" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Krstac (937 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">199 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2686 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">10:28</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8114329845_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery25">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/_qghl_qbe-ikE9iAbjMZgn-cQ5LzZMvq0NnM1GX9sqg-1536x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/_qghl_qbe-ikE9iAbjMZgn-cQ5LzZMvq0NnM1GX9sqg-1536x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/bimumk1eTc0ceelJKAOxole8jUdcAS36wDXGYOKsJPU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/2UdPgDRVj18giB1XwozXSGIvAU-qJww7dLegJAZrhoA-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Podgorica to Pristina 🚴🇪🇺🇲🇪🇦🇱🇽🇰
+                    <a href="https://www.strava.com/activities/8118520965" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Prevoj Čakor (1,859 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">197 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">3651 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">12:28</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8118520965_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery26">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/7JxdfxewpAPe3fc50OmEg2jq27rAdf6hc_ljeIKVT_8-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/7JxdfxewpAPe3fc50OmEg2jq27rAdf6hc_ljeIKVT_8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://image.mux.com/lot01s5eOkotQ6m1bPoODTW56QEiVhrprCaHqLGasuso/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/HP5-3zRHCgcLjkH_o_g6WBapPrV36m622Pz6hSyX7MQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/tOp0p_X8zM-PMOzYoHv8ur9arfZsq3A__NbWkl5iGL0-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/v5MaxcxoZt2d3ax_A1Micf7_U6Swp8Aj0kCaFhdA1V8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/HnyoLZHm80kBe6P2cuVco1WZeO7POL0Iss57yW-f1ZY-2048x1493.jpg" class="thumbnail" alt="Thumbnail 5">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Pristina to Dojran Lake 🚴🇪🇺🇽🇰🇲🇰
+                    <a href="https://www.strava.com/activities/8122936063" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">253 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1588 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">11:49</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8122936063_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery27">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/5zBOCBTUMwhS5l-e74DixJOPtID05Ye1SxoZETMyWoc-1536x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/5zBOCBTUMwhS5l-e74DixJOPtID05Ye1SxoZETMyWoc-1536x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/iFvMZ7Suh7qv9tCb02JASoC8AePlAwKCrkpnsjSqjNU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/PjAi-JGEk-q73dtJQyA5jyGx2ktR_WVQywEi_Ddi9BA-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Dorian Lake to Kavala 🚴🇪🇺🇲🇰🇬🇷
+                    <a href="https://www.strava.com/activities/8127253146" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">191 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1281 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">09:32</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8127253146_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery28">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/u2f-Phy7X079-HoWkBvDQ__B4pfOH8EheCfKeCy_zeU-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/u2f-Phy7X079-HoWkBvDQ__B4pfOH8EheCfKeCy_zeU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://image.mux.com/mdPNTKapl00XfR5mj9Seec01d7ERR3sWVCaRHluo7Uges/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/GMaU7ge_qk3JGeBsy1pgjvkRfsgHdGvx5yWy7_I9pnI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Kavala to Keşan 🚴🇪🇺🇬🇷🇹🇷
+                    <a href="https://www.strava.com/activities/8132462476" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">249 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1469 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">12:24</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8132462476_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery29">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/Vc7qTk9cQj60w8tjqsTjHC5_GrnGHtQULoad26AfMGU-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/Vc7qTk9cQj60w8tjqsTjHC5_GrnGHtQULoad26AfMGU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/5MmOGZehi5klLO_A8DzpV4LHwnWAmy-ST5mVL2JVaZY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/L4QQAOutz1K0AZirFevkgmFA-YYZNTBGCmZsMWmJjoI-1536x2048.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Keşan to Istanbul 🚴🇪🇺🇹🇷
+                    <a href="https://www.strava.com/activities/8136340589" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">223 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2341 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">11:26</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8136340589_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery30">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/36RanWg9VvCFH8qhtc_jafqhVgn057C4-AaOMsVxkuI-2048x1396.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/36RanWg9VvCFH8qhtc_jafqhVgn057C4-AaOMsVxkuI-2048x1396.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/XLiNDEUIuSx5dVKFlUIYzieaXtq-kIXutTGh0_9Lu8A-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/PQ0c3kYxERWeUKrmCzXZO-Lh3NYjZZT5itTzJshDBXs-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/5jmxRCarqUmceT_rD17-dzNVgweK_ZXRpXdyfZ6_tI4-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/V0eX7UTew66bYjag-ljw8lzvmAUAV8ZS-lSAlNTGslM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/tHTlClKHrpqw4BPC7FcuAJm9zLILXwQtTsO4c6zidfM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/XGZYvnIZ4zaVaD4zyrrHwEcByDGnv97JUUFejW14LpY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 6"><img src="https://dgtzuqphqg23d.cloudfront.net/_Xr79ZjTvsFFlodW84MiKnrSpilfd-gKkzVn9ur576I-2048x1957.jpg" class="thumbnail" alt="Thumbnail 7">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupGallery(galleryId) {
+                const gallery = document.getElementById(galleryId);
+                const largePhoto = gallery.querySelector('.large-photo');
+                const thumbnails = gallery.querySelectorAll('.thumbnail');
+
+                // Function to update the large photo and set the active thumbnail
+                function updatePhoto(selectedThumbnail) {
+                    // Update the large photo's source
+                    largePhoto.src = selectedThumbnail.src;
+                    
+                    // Update border for active thumbnail
+                    thumbnails.forEach(function(thumb) {
+                        thumb.classList.remove('active-thumbnail');
+                    });
+                    selectedThumbnail.classList.add('active-thumbnail');
+                }
+
+                // Set the first thumbnail as active by default
+                if (thumbnails.length > 0) {
+                    updatePhoto(thumbnails[0]);
+                }
+
+                // Add click event listener to each thumbnail
+                thumbnails.forEach(function(thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        updatePhoto(thumbnail);
+                    });
+                });
+            }
+
+            // Setup both galleries
+            // Example:
+            // setupGallery('gallery1');
+            // setupGallery('gallery2');
+            setupGallery('gallery0');
+setupGallery('gallery1');
+setupGallery('gallery2');
+setupGallery('gallery3');
+setupGallery('gallery4');
+setupGallery('gallery5');
+setupGallery('gallery6');
+setupGallery('gallery7');
+setupGallery('gallery8');
+setupGallery('gallery9');
+setupGallery('gallery10');
+setupGallery('gallery11');
+setupGallery('gallery12');
+setupGallery('gallery13');
+setupGallery('gallery14');
+setupGallery('gallery15');
+setupGallery('gallery16');
+setupGallery('gallery17');
+setupGallery('gallery18');
+setupGallery('gallery19');
+setupGallery('gallery20');
+setupGallery('gallery21');
+setupGallery('gallery22');
+setupGallery('gallery23');
+setupGallery('gallery24');
+setupGallery('gallery25');
+setupGallery('gallery26');
+setupGallery('gallery27');
+setupGallery('gallery28');
+setupGallery('gallery29');
+setupGallery('gallery30');
+
+        });
+    </script>
+</gallery-body>
+</html>

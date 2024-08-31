@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Photo Galleries</title>
+    <style>
+        gallery-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #gallery-container {
+            width: 80%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+            background-color: #e3f2e1; /* Light green background */
+            border-radius: 15px; /* Rounded corners */
+            padding: 20px; /* Padding around gallery content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .photo-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .large-photo-container {
+            width: 75%;
+            padding-bottom: 50%; /* Aspect ratio 3:2 */
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #ddd;
+        }
+        .large-photo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Vertically center-align items */
+            gap: 15px; /* Space between items */
+            margin-bottom: 20px; /* Space below the container */
+        }
+        .logo {
+            height: 24px; /* Set a uniform height for icons */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle; /* Aligns the image with the text */
+            display: inline-block; /* Allows for vertical alignment */
+        }
+        .info-text {
+            font-size: 16px; /* Adjust font size as needed */
+            line-height: 24px; /* Align text height with icon */
+        }
+        .elevation-photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            align-items: center;
+        }
+        .elevation-photo {
+            max-width: 80%;
+            max-height: 300px;
+            /* Ensures the image maintains its aspect ratio without scaling or cropping */
+            object-fit: contain;
+        }
+        .thumbnail-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .thumbnail {
+            max-height: 200px;
+            width: 18%;
+            margin: 1%;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .thumbnail.active-thumbnail {
+            border: 3px solid #4CAF50; /* Green border for active thumbnail */
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<gallery-body>
+    <!-- Photo galleries -->
+    
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Hike to Neureuth
+                    <a href="https://www.strava.com/activities/12137627404" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>We made it right before the storm.
+
+⛰️ Neureuth (1,261 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">9 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">525 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">02:37</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/12137627404_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery0">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/n0Ax7ITHVwEJisuRkFUf-J8vj7UCIDErajUbCiQwGL0-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/n0Ax7ITHVwEJisuRkFUf-J8vj7UCIDErajUbCiQwGL0-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/gEbOYCB5VUBIQAGaf-fxUHSmEuzVSkn1P6DwPm1-nzE-945x2048.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://image.mux.com/cWBkhBYH2MRDbndHo6lwryKNNUrGHJd3xelSiAdDtWs/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Tegernsee to Schliersee ⛰️
+                    <a href="https://www.strava.com/activities/8007161343" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Neureuth (1,261 m) • ⛰️ Gindelalmschneid (1,335 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">15 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">685 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">04:30</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8007161343_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery1">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/I_zrKp0F_fDJBxrVIzneFjopeEUxE1WYZRjxQ_S817I-1536x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/I_zrKp0F_fDJBxrVIzneFjopeEUxE1WYZRjxQ_S817I-1536x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/wgJTnnoDAIa5PVbeiskkKM5KkVUjastztgvV3B-m3lU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Hike around schliersee 🇩🇪
+                    <a href="https://www.strava.com/activities/10125733640" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">14 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">571 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">03:50</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10125733640_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery2">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/z1e-PBKN-eLdL87c7c1M7PU-9GcKgZzHOMDXWcktAaM-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/z1e-PBKN-eLdL87c7c1M7PU-9GcKgZzHOMDXWcktAaM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/6Rl1TWT4yuFHV2sPPIBLWMkToIoFbZGXQ8SQFoIjCVw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/anvNRvPl-fgx2b5_d6JhcPbKZ4ykOg3zZLFPDF9TJY4-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Romantic walk through the mountains 🏃⛰️
+                    <a href="https://www.strava.com/activities/9327605554" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Geierstein (1,491 m) • ⛰️ Fockenstein (1,564 m) • ⛰️ Zwergelberg (1,113 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">21 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1298 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">08:45</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/9327605554_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery3">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/GCpaeZtVOhtThCSrbuJIRMcgsvG9UF9uvoYA8aCLPBo-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/GCpaeZtVOhtThCSrbuJIRMcgsvG9UF9uvoYA8aCLPBo-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/wqzotij26POf0JL_RsrGYQHpW9uMHz21fAl11mbBpFQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/GG6vRMBkOaoZNRgGybYvu2DTXlORMaB7PX8MTv55pSM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/RHI2C3mdq1XjbsteC1dwYjj_YnhjjkUi6OaeqR6BuNs-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/F1GKruzJzFf7L8Q24auFsEqt46Gx2iT3qAKd51sovh4-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/44vcHjcJy5cH1-3F1tYT6_BukjjZ4mts0ehZmvH7ZeA-2048x478.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/tXQXdRqWzVIhbSvOCVxZ9HXTxc_tgRjowBMeI0OL1FM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 6"><img src="https://dgtzuqphqg23d.cloudfront.net/cnZcJvrsS2884yN2FxsBUr5TB4-IEyCf6oKSGkbVS14-1536x2048.jpg" class="thumbnail" alt="Thumbnail 7"><img src="https://dgtzuqphqg23d.cloudfront.net/nqSrfYLIZOwRlxrfIFkP6cGSQdFLnmpXRfD3I5ppfGM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 8"><img src="https://dgtzuqphqg23d.cloudfront.net/_RRf2HA_bWBhcQuAMA9RPpuJPMwsR5wxA7Ln3VToN7k-2048x1536.jpg" class="thumbnail" alt="Thumbnail 9">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Walchensee to Kochelsee
+                    <a href="https://www.strava.com/activities/12054116496" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Herzogstand (1,731 m) • ⛰️ Kesselberg (858 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">21 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">992 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:47</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/12054116496_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery4">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/CwtDDIeRbYB6wyLqC0k6BHrrq1VZSWZTxgKpuRyd6e8-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/CwtDDIeRbYB6wyLqC0k6BHrrq1VZSWZTxgKpuRyd6e8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/E0tS0rGRGNIHhlXvRsPAAst4iEcOhQldX4BiWw5ZU7c-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/5EU-GFGtm6xZsSTS43kyoxKE_7vM7GUT94Oj4iVqfK0-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/HOsQ2UWESU07a2F_SJvfy8c_mBXHF2NfthFAzhrJTXw-2048x948.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/2NFqaUYPhq4gMs9GkLy85zsY4QRLYWzJVB0cbTT1j_s-2048x1536.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/5kc865JXnkZuvkBIVGLlen2Pz_vFbE1Y0rDOmFZsczc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/BfdnyzznLIaLqNbcByVmlbeHEOl2e_H03gXRk25DwQA-1536x2048.jpg" class="thumbnail" alt="Thumbnail 6"><img src="https://dgtzuqphqg23d.cloudfront.net/9Zlo841PxhZl3NDgCiDffw25WpzLmF6Cz_EmhgFPnLE-2048x1536.jpg" class="thumbnail" alt="Thumbnail 7">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Hike to Ostenfelderkopf
+                    <a href="https://www.strava.com/activities/12104083372" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Sauwankl (1,537 m) • ⛰️ Kreuzjoch (1,719 m) • ⛰️ Osterfelderkopf (2,060 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">19 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1545 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">05:52</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/12104083372_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery5">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/xIUJwlkXunzuIiQwqSXSYcq-ly01hnB5jKV_DrEUNuw-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/xIUJwlkXunzuIiQwqSXSYcq-ly01hnB5jKV_DrEUNuw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/RozdTI1hxMUSTQj0wzp2lPyr9Gvy4bb564OBdiGRdzg-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://image.mux.com/rEM400G6LTtYtLHip00rmLBOWfUmTugf00Vu00dY7FFlWxk/thumbnail.jpg?width=2812&height=5000&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/jw9gbHZwYMdzGB7cXIiRu65qhBhJ9du-7Qk-Sqjs8KY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/tO3eJkOBAmf7Md-j2VUdL9uD4zSI_DokXroQDft9gFs-2048x1535.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/-VhBtqyV3BdznoMZlKOnUYhWvJinfKm3vbfeRf0xyQo-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/Lc2wg_CEpx_eR3GfM_U6nsqZZylfp75n85thvMb9fJs-1536x2048.jpg" class="thumbnail" alt="Thumbnail 6"><img src="https://dgtzuqphqg23d.cloudfront.net/p4ELNELr3aoYBFC0pvXjOLY9lYHqAW9lRGBputzL7gE-1536x2048.jpg" class="thumbnail" alt="Thumbnail 7"><img src="https://dgtzuqphqg23d.cloudfront.net/wTesoyN5CM5GxmG5KgZdH-M3seyHfjC-0mTaJgqCiis-2048x954.jpg" class="thumbnail" alt="Thumbnail 8"><img src="https://dgtzuqphqg23d.cloudfront.net/9-DhrOvIK0fJby1kIXsgFNZiVdpaArZqm5xCMDU-xiw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 9"><img src="https://dgtzuqphqg23d.cloudfront.net/HK44NheUp1FemxRfxd67woIcWj6dMSiEegUS9lqaIWo-2048x912.jpg" class="thumbnail" alt="Thumbnail 10"><img src="https://dgtzuqphqg23d.cloudfront.net/KIwjz9D-E6ycM-eVnadDDOh7gRJkfPEM3I1BP6_j5MM-1536x2048.jpg" class="thumbnail" alt="Thumbnail 11"><img src="https://dgtzuqphqg23d.cloudfront.net/gZT404buj2r0rLDrG81zkkMB5ziQc1ZOvnyJR38GtcI-1536x2048.jpg" class="thumbnail" alt="Thumbnail 12"><img src="https://dgtzuqphqg23d.cloudfront.net/Are0fT-52muWC3zBSgPOjQ2YVg6ZTur81Cz9ylpQSWk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 13">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Neuschwanstein Castle
+                    <a href="https://www.strava.com/activities/9678185334" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">2 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">206 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:46</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/9678185334_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery6">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/x4lj6bv4aRq1sJZNA3RvrBywAO1nm-qWpFip6_lxDzk-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/x4lj6bv4aRq1sJZNA3RvrBywAO1nm-qWpFip6_lxDzk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/cktk9hhQFgQL8mjdIHd5mzEbW3nlCGJYLoEZepNg9as-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Wendelstein ⛰️
+                    <a href="https://www.strava.com/activities/8043989941" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Wendelstein (1,838 m) • ⛰️ Zeller Scharte (1,611 m) • ⛰️ Kesselwand (1,721 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">18 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1231 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:53</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/8043989941_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery7">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/2zVsvERcoFuNBjSf4r5a682pD4zVTTZAA-YYk095gow-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/2zVsvERcoFuNBjSf4r5a682pD4zVTTZAA-YYk095gow-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupGallery(galleryId) {
+                const gallery = document.getElementById(galleryId);
+                const largePhoto = gallery.querySelector('.large-photo');
+                const thumbnails = gallery.querySelectorAll('.thumbnail');
+
+                // Function to update the large photo and set the active thumbnail
+                function updatePhoto(selectedThumbnail) {
+                    // Update the large photo's source
+                    largePhoto.src = selectedThumbnail.src;
+                    
+                    // Update border for active thumbnail
+                    thumbnails.forEach(function(thumb) {
+                        thumb.classList.remove('active-thumbnail');
+                    });
+                    selectedThumbnail.classList.add('active-thumbnail');
+                }
+
+                // Set the first thumbnail as active by default
+                if (thumbnails.length > 0) {
+                    updatePhoto(thumbnails[0]);
+                }
+
+                // Add click event listener to each thumbnail
+                thumbnails.forEach(function(thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        updatePhoto(thumbnail);
+                    });
+                });
+            }
+
+            // Setup both galleries
+            // Example:
+            // setupGallery('gallery1');
+            // setupGallery('gallery2');
+            setupGallery('gallery0');
+setupGallery('gallery1');
+setupGallery('gallery2');
+setupGallery('gallery3');
+setupGallery('gallery4');
+setupGallery('gallery5');
+setupGallery('gallery6');
+setupGallery('gallery7');
+
+        });
+    </script>
+</gallery-body>
+</html>

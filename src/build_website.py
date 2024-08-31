@@ -38,8 +38,13 @@ def get_trip_content(collection):
         content += ''.join(f.readlines())
     with open(f'figures/html/{collection}_summary_table.html','r') as f:
         content += ''.join(f.readlines())
+    # with open(f'figures/html/photogallery_{collection}.html','r') as f:
+    #     content += ''.join(f.readlines())
     return content
 
+def get_photo_gallery(collection):
+    with open(f'figures/html/photogallery_{collection}.html','r') as f:
+        return ''.join(f.readlines())
 def emoji_to_html(emoji):
     # Convert each character in the flag emoji to its Unicode code point
     code_points = [ord(char) for char in emoji]
@@ -50,8 +55,22 @@ def emoji_to_html(emoji):
     return html_entities
 
 def main():
-
-
+    # html_output = f"""
+    # <!DOCTYPE html>
+    # <html lang="en">
+    #     <head>
+    #         <meta charset="UTF-8">
+    #         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    #         <title>
+    #             Styled HTML Table
+    #         </title>
+    #         {css_styles}
+    #     </head>
+    #     <body>
+    #         {html_table}
+    #     </body>
+    # </html>
+    # """
     selected_collections = ['norway-turkey','berlin-tarifa','taiwan_2017','hue-hcmc_2016','yokohama-fukuoka_2019','bavarian-alp-traverse','perla-hikes','ibiza_2023']
     #selected_collections = ['norway-turkey']
     with open('templates/INDEX_TEMPLATE3.html','r') as f:
@@ -61,6 +80,7 @@ def main():
             _out = index_template
             _out = _out.replace('<!--TOPNAV_LOCATION-->',get_topnav(selected_collections,active_collection = collection))
             _out = _out.replace('<!--TRIP_CONTENT-->',get_trip_content(collection))
+            _out += get_photo_gallery(collection) # This is not how it should be done, but it works for now
             f.write(_out)
     with open('index.html','w') as f:
         _out = index_template

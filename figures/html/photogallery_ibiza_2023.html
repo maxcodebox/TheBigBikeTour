@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Photo Galleries</title>
+    <style>
+        gallery-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #gallery-container {
+            width: 80%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+            background-color: #e3f2e1; /* Light green background */
+            border-radius: 15px; /* Rounded corners */
+            padding: 20px; /* Padding around gallery content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .photo-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .large-photo-container {
+            width: 75%;
+            padding-bottom: 50%; /* Aspect ratio 3:2 */
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #ddd;
+        }
+        .large-photo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Vertically center-align items */
+            gap: 15px; /* Space between items */
+            margin-bottom: 20px; /* Space below the container */
+        }
+        .logo {
+            height: 24px; /* Set a uniform height for icons */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle; /* Aligns the image with the text */
+            display: inline-block; /* Allows for vertical alignment */
+        }
+        .info-text {
+            font-size: 16px; /* Adjust font size as needed */
+            line-height: 24px; /* Align text height with icon */
+        }
+        .elevation-photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            align-items: center;
+        }
+        .elevation-photo {
+            max-width: 80%;
+            max-height: 300px;
+            /* Ensures the image maintains its aspect ratio without scaling or cropping */
+            object-fit: contain;
+        }
+        .thumbnail-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .thumbnail {
+            max-height: 200px;
+            width: 18%;
+            margin: 1%;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .thumbnail.active-thumbnail {
+            border: 3px solid #4CAF50; /* Green border for active thumbnail */
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<gallery-body>
+    <!-- Photo galleries -->
+    
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Evening Run
+                    <a href="https://www.strava.com/activities/10184212131" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Recovery run
+Knees ✅
+Legs ✅
+Feet ✅</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">9 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">6 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:49</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10184212131_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery0">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/cu5nGkf7heJLTD2TW3TD7hVosoLwASzRoUCsgW_dhyI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/cu5nGkf7heJLTD2TW3TD7hVosoLwASzRoUCsgW_dhyI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Lunch Run
+                    <a href="https://www.strava.com/activities/10188508424" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>-- myWindsock Report --
+Weather Impact: 7.7%
+Headwind: 65% @ 5.3-8m/s
+Longest Headwind: 30m 29s
+Air Speed: 13.8km/h
+Temp: 22.1-23.3°C
+Precip: 0% @ 0 Inch/hr
+-- END --</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">21 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">49 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:54</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10188508424_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery1">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/pFaZmiJYNs5glGOgfZVJLCnL3rHJkzFxzSMuBZW3Mhk-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/pFaZmiJYNs5glGOgfZVJLCnL3rHJkzFxzSMuBZW3Mhk-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Evening Run
+                    <a href="https://www.strava.com/activities/10201453185" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>-- myWindsock Report --
+Weather Impact: 2.5%
+Headwind: 51% @ 2.4-5.4m/s
+Longest Headwind: 12m 54s
+Air Speed: 10.5km/h
+Temp: 21.6°C
+Precip: 0% @ 0 Inch/hr
+-- END --</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">9 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">11 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:52</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10201453185_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Valencia to Ibiza
+                    <a href="https://www.strava.com/activities/10209283997" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">147 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">72 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">17:46</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10209283997_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery3">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/9f0umRIKNai58OIkMBdlQq8BQvChAGDIsYlg9OEx8hQ-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/9f0umRIKNai58OIkMBdlQq8BQvChAGDIsYlg9OEx8hQ-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Morning Sail
+                    <a href="https://www.strava.com/activities/10210461413" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Last bit to Ibiza after short sleep by sa Connillera</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">9 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">9 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:54</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10210461413_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Morning Run
+                    <a href="https://www.strava.com/activities/10215286376" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">10 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">181 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:00</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10215286376_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery5">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/aEmeOIMK0mfRDg9CAve77UobQAUDeSjd2YiX8qf6Agg-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/aEmeOIMK0mfRDg9CAve77UobQAUDeSjd2YiX8qf6Agg-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Ibiza beach biking
+                    <a href="https://www.strava.com/activities/10220935820" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Rental bike puncture-> 7km run for Axel</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">20 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">194 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:58</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10220935820_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery6">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/FysNe_jNIM-YBG_V14Nlu0_DR7B9U5jCum3e7WSBN9Y-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/FysNe_jNIM-YBG_V14Nlu0_DR7B9U5jCum3e7WSBN9Y-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/WEBRXyFS6Ba1bCcIBTRusiZ8i8JeW9JR-J8nyXfcucE-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/gDSB4FZnUxQg1k-oOBzMrzN_WT5bee1nQHYXGXstn-M-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/f0zdJSJ-V54y04LEPFoNuTzmCrrYywICne4YBiS1Zaw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Ibiza to Formentera
+                    <a href="https://www.strava.com/activities/10223047971" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">49 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">96 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">07:11</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10223047971_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery7">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://image.mux.com/k9LI5sjfVxFjdAfV9HSdRiCCvCy01ziOJpHTnnvpofgw/thumbnail.jpg?width=2812&height=5000&fit_mode=preserve&time=0" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://image.mux.com/k9LI5sjfVxFjdAfV9HSdRiCCvCy01ziOJpHTnnvpofgw/thumbnail.jpg?width=2812&height=5000&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 0">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Morning Run in Formentera
+                    <a href="https://www.strava.com/activities/10232455929" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">10 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">14 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:46</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10232455929_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Formentera to Alcossebre
+                    <a href="https://www.strava.com/activities/10239392263" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">199 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">67 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">26:37</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10239392263_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery9">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/hxLYWV-VvJeQJvtUBdwVY8AgNhGdNIRBazor1vUo6hI-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/hxLYWV-VvJeQJvtUBdwVY8AgNhGdNIRBazor1vUo6hI-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/cYS45p1nZMDabGz13nfODtKEERLbmATFpPcXfYMTZ7k-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://image.mux.com/KGwOlh2K01HZhQz91cCtcoEoa3Da4hvaVUrdcPMNNR9A/thumbnail.jpg?width=2812&height=5000&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Afternoon Run
+                    <a href="https://www.strava.com/activities/10240530649" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>Recovery run after 27h of no moving</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">11 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">104 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">01:04</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10240530649_elevation_profile.png">
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Morning Run
+                    <a href="https://www.strava.com/activities/10244023732" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p>⛰️ Tossal de la Barra (390 m) • ⛰️ Campanilles (572 m) • ⛰️ Fabuquello (562 m) | 🌐 summitbag.com</p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">20 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">774 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">02:46</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/10244023732_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery11">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/416uQ37ar3U4jJ76oLnf2LkzB_7-qppsHRt1jvZu1bM-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/416uQ37ar3U4jJ76oLnf2LkzB_7-qppsHRt1jvZu1bM-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/xHPSQ17WTwszO3QMJO-R5G9_TSwtg1Pdy64ltV4Z_jg-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/aVZ8UEs3LIWdbyhzh6CHMu_qEjKzOE693i701H87JyI-2048x727.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupGallery(galleryId) {
+                const gallery = document.getElementById(galleryId);
+                const largePhoto = gallery.querySelector('.large-photo');
+                const thumbnails = gallery.querySelectorAll('.thumbnail');
+
+                // Function to update the large photo and set the active thumbnail
+                function updatePhoto(selectedThumbnail) {
+                    // Update the large photo's source
+                    largePhoto.src = selectedThumbnail.src;
+                    
+                    // Update border for active thumbnail
+                    thumbnails.forEach(function(thumb) {
+                        thumb.classList.remove('active-thumbnail');
+                    });
+                    selectedThumbnail.classList.add('active-thumbnail');
+                }
+
+                // Set the first thumbnail as active by default
+                if (thumbnails.length > 0) {
+                    updatePhoto(thumbnails[0]);
+                }
+
+                // Add click event listener to each thumbnail
+                thumbnails.forEach(function(thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        updatePhoto(thumbnail);
+                    });
+                });
+            }
+
+            // Setup both galleries
+            // Example:
+            // setupGallery('gallery1');
+            // setupGallery('gallery2');
+            setupGallery('gallery0');
+setupGallery('gallery1');
+setupGallery('gallery2');
+setupGallery('gallery3');
+setupGallery('gallery4');
+setupGallery('gallery5');
+setupGallery('gallery6');
+setupGallery('gallery7');
+setupGallery('gallery8');
+setupGallery('gallery9');
+setupGallery('gallery10');
+setupGallery('gallery11');
+
+        });
+    </script>
+</gallery-body>
+</html>

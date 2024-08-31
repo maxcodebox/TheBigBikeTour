@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Photo Galleries</title>
+    <style>
+        gallery-body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #gallery-container {
+            width: 80%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+            background-color: #e3f2e1; /* Light green background */
+            border-radius: 15px; /* Rounded corners */
+            padding: 20px; /* Padding around gallery content */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .photo-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .large-photo-container {
+            width: 75%;
+            padding-bottom: 50%; /* Aspect ratio 3:2 */
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #ddd;
+        }
+        .large-photo {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Vertically center-align items */
+            gap: 15px; /* Space between items */
+            margin-bottom: 20px; /* Space below the container */
+        }
+        .logo {
+            height: 24px; /* Set a uniform height for icons */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle; /* Aligns the image with the text */
+            display: inline-block; /* Allows for vertical alignment */
+        }
+        .info-text {
+            font-size: 16px; /* Adjust font size as needed */
+            line-height: 24px; /* Align text height with icon */
+        }
+        .elevation-photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            align-items: center;
+        }
+        .elevation-photo {
+            max-width: 80%;
+            max-height: 300px;
+            /* Ensures the image maintains its aspect ratio without scaling or cropping */
+            object-fit: contain;
+        }
+        .thumbnail-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .thumbnail {
+            max-height: 200px;
+            width: 18%;
+            margin: 1%;
+            border-radius: 5px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .thumbnail.active-thumbnail {
+            border: 3px solid #4CAF50; /* Green border for active thumbnail */
+        }
+        .description {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<gallery-body>
+    <!-- Photo galleries -->
+    
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Hue - Da Nang 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/813611974" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">96 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">758 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">05:30</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/813611974_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery0">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/BRV4NSH9kuLPLtBBIUC6iQZT4OYr8ms9X_U5g72Yo-s-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/BRV4NSH9kuLPLtBBIUC6iQZT4OYr8ms9X_U5g72Yo-s-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/9GAkxj_b1ZBq8o2DytWfX6XjF_Zrruo_e2Q8N1iNTJ8-2048x1153.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/CSaRfw-5P916H_mUegJbvvx-sjeokOICGTETsno577g-2048x1152.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/E_XkDuZ2BSzo-aVbtWR4OYUapilM8u2bjUS9rcP3DG8-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://image.mux.com/fV8k3yGnetmyXF23FNJaQ013rWgHm1KgTIqPvsV01GttM/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/PIkg5NMDMu8LZRvRzWMtSWVTWA8XNBE8wzHaME5V0wY-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://image.mux.com/j02aJEdCao6klNa00j3St4Px6t9ynEyg1pJAf3o02pbfrU/thumbnail.jpg?width=5000&height=2812&fit_mode=preserve&time=0" class="thumbnail" alt="Thumbnail 6">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Da nang - Quang ngai 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/814667984" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">139 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">114 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">07:14</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/814667984_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery1">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/UBepun4TIYmeJZrwT6WByK7GVbIddJ9yQKcHyA4V-yc-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/UBepun4TIYmeJZrwT6WByK7GVbIddJ9yQKcHyA4V-yc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/ZLJ2UQ4E3Ox5YmAjcNaGx6SjPJxZ6DAFkBc-0Z-k0O0-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/kgN5wM-NwsonW6fWulzL6MnVIit6-PDbqe9OiO73iqo-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Quang Ngai - Quy Nhon 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/815722126" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">182 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">628 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">09:23</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/815722126_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery2">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/AgP0vPwT6pJqDngF0VwjENt_2_slV8NgINpUo55rXaE-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/AgP0vPwT6pJqDngF0VwjENt_2_slV8NgINpUo55rXaE-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/f-52xzK_nx9aNtTNiw-O0Hpid0ka1yzhmJjIKIvo1zA-1536x2048.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/VXrXYuSmmtKk6LQ8z5Hk8gkdP9-8UXXvK5J70xacAEE-1536x2048.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/pyiM7oGuNmrMmGtYVIWmMJNL1jEG1YJjBaSlVk8jtV0-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/CVrfKhfG1qMHCqwGLKIZrhPSOqfoAB22I4pRCOul3Ts-1536x2048.jpg" class="thumbnail" alt="Thumbnail 4">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Qui Nhon - Tuy Hoa 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/816416782" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">77 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">449 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">04:34</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/816416782_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery3">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/JM_ytp1KlthUlBNLWFTrLye_XcppEbMf32B5wR4z1nY-2048x1152.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/JM_ytp1KlthUlBNLWFTrLye_XcppEbMf32B5wR4z1nY-2048x1152.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/lUB5B4qCNdXyOW5ckLvVMujCoG1LNJdDlUHTF3Qfle0-1536x2048.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/JhjsF6GjiKkWnfwr0SdhIkKXJpwW_BtGYFWOXy2DSoA-2048x1152.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/zK4mYS5Bc7yUFfGBRCROvIdMKBjhlT3URX88ABeJgeM-1151x2048.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/SKgaLodsBsqUiC2kiYyfC9TIygsN1AtifQrkgDXyh88-2048x1152.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/wEt3_0-0qWxnmhmULeKdSMI6XlF69hiD_9qejtKM0ac-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5"><img src="https://dgtzuqphqg23d.cloudfront.net/BuAI80C4j7jgLieyHg2_qi8TloEB-TInxp43NnfR4I8-1536x2048.jpg" class="thumbnail" alt="Thumbnail 6">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Quy Hua - Nha Trang 🇻🇳
+                    <a href="https://www.strava.com/activities/817458392" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">134 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">395 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:49</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/817458392_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery4">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/-i-pij3IazinATCMRhCjyb4-Ve8Bg0RjN69eyyEgSvo-2048x1152.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/-i-pij3IazinATCMRhCjyb4-Ve8Bg0RjN69eyyEgSvo-2048x1152.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/Nr-2L63qhsgGkKZfXNuiq60qb546vcaQOlrd6EpLzB4-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/Kx1Q-YWRRO95o6i0WF2VXTmfYN3ENKeFFS0jGe6eNPA-2048x1536.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/OM8qt8XB0zUM1Fvb8nW1qgG9pWWVyfFXUPQEGn1YpLA-1536x2048.jpg" class="thumbnail" alt="Thumbnail 3">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Nha Trang - Dalat 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/818317407" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">83 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">2198 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:15</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/818317407_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery5">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/pQNbnKeLni0xTIXphRKTV-szUAApCzSI09nh5Qfuh9E-1536x2048.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/pQNbnKeLni0xTIXphRKTV-szUAApCzSI09nh5Qfuh9E-1536x2048.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/wZgeUPBmUC5915P0tjXF2cK7DxMSf53gfJR5-trCv5U-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/Q7_HBrfcsrPioASNClk9rAYb5d5kTRZP4-Tu5lPZRUU-2048x1152.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/p6UAxgFWvpF_Vkp4SSIHlJY3IMhj_zggvyzvb8f-Tlc-2048x477.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/npHnTMG_ZGmk6xSgz5g5VKqMXUcb_N8KviNZyj0NmnA-1536x2048.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/Sr05hPxh0O41rNi-gh-BqwSqakJ8VGWPT_nI8X_owSg-1536x2048.jpg" class="thumbnail" alt="Thumbnail 5">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Last bit to Dalat 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/818351252" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">8 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">66 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">00:21</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/818351252_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery6">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/puupV0c6oWdzbhnzPH1ItcQWPH7_mpF4MNSEoqvXH_k-2048x1365.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/puupV0c6oWdzbhnzPH1ItcQWPH7_mpF4MNSEoqvXH_k-2048x1365.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/F9IDWb7pPhcvQ-r_yTdZBr2a2CqDC2UeIckpmXk9-KE-2048x1365.jpg" class="thumbnail" alt="Thumbnail 1">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Dalat - Cat Tien National Park 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/820642128" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">172 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">1019 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">07:23</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/820642128_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery7">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/Hr2f8hd0vH6wYgQqX-Oh4TuRYYOTnwT4_1In_5DUbt8-2048x1152.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/Hr2f8hd0vH6wYgQqX-Oh4TuRYYOTnwT4_1In_5DUbt8-2048x1152.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/TlLmI448LmmROWhjHLWHyudTXmt84D_YvDkYbA1wFlw-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="gallery-container">
+            <div class="gallery-title">
+                <h1>
+                    Cat Tien National Park - Ho Chi Minh City 🚴🏯🇻🇳
+                    <a href="https://www.strava.com/activities/821757676" target="_blank">
+                        <img src="figures/strava.svg" alt="Strava logo" class="logo">
+                    </a>
+                </h1>
+                <p></p>
+                <div class="info-container">
+                    <img src="figures/distance-icon.png" alt="Distance icon" class="logo">
+                    <span class="info-text">144 km</span>
+                    <img src="figures/elevation-up-icon.png" alt="Elevation icon" class="logo">
+                    <span class="info-text">697 hm</span>
+                    <img src="figures/time-icon.png" alt="Time icon" class="logo">
+                    <span class="info-text">06:50</span>
+                </div>
+                <div class="elevation-photo-container">
+                    <img class="elevation-photo" src="figures/static/821757676_elevation_profile.png">
+                </div>
+                
+            <div class="photo-gallery" id="gallery8">
+                    <!-- Large Photo Display -->
+                    <div class="large-photo-container">
+                        <img class="large-photo" src="https://dgtzuqphqg23d.cloudfront.net/TQSaCOnale7XU22OSyEmWLkLAGqG6Y33HL9Nr43_uoc-2048x1536.jpg" alt="Large Photo 2">
+                    </div>
+                    <!-- Thumbnail Row -->
+                    <div class="thumbnail-row">
+                        <img src="https://dgtzuqphqg23d.cloudfront.net/TQSaCOnale7XU22OSyEmWLkLAGqG6Y33HL9Nr43_uoc-2048x1536.jpg" class="thumbnail" alt="Thumbnail 0"><img src="https://dgtzuqphqg23d.cloudfront.net/0deaKR-CnDSNKVeZQrIJtzjNbny6dhOi7rYHabDsR1s-2048x1536.jpg" class="thumbnail" alt="Thumbnail 1"><img src="https://dgtzuqphqg23d.cloudfront.net/eUwfx1eZL8swISlY9HLrOsHUt3RsmsjwOTUnxa1NelI-1536x2048.jpg" class="thumbnail" alt="Thumbnail 2"><img src="https://dgtzuqphqg23d.cloudfront.net/hURorsaHpQJxCYXduo1XFJOcM5f2Iyvj5iZagf13kms-2048x1536.jpg" class="thumbnail" alt="Thumbnail 3"><img src="https://dgtzuqphqg23d.cloudfront.net/cgpCUc0kgO8Xi9TTao41RHpXMt1W-cF8Se4SeLQHurE-1536x2048.jpg" class="thumbnail" alt="Thumbnail 4"><img src="https://dgtzuqphqg23d.cloudfront.net/SpVcwEbiixesGqUZaC6F4uYVuvfvzyXC-L5F0QyBDGU-2048x1536.jpg" class="thumbnail" alt="Thumbnail 5">
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupGallery(galleryId) {
+                const gallery = document.getElementById(galleryId);
+                const largePhoto = gallery.querySelector('.large-photo');
+                const thumbnails = gallery.querySelectorAll('.thumbnail');
+
+                // Function to update the large photo and set the active thumbnail
+                function updatePhoto(selectedThumbnail) {
+                    // Update the large photo's source
+                    largePhoto.src = selectedThumbnail.src;
+                    
+                    // Update border for active thumbnail
+                    thumbnails.forEach(function(thumb) {
+                        thumb.classList.remove('active-thumbnail');
+                    });
+                    selectedThumbnail.classList.add('active-thumbnail');
+                }
+
+                // Set the first thumbnail as active by default
+                if (thumbnails.length > 0) {
+                    updatePhoto(thumbnails[0]);
+                }
+
+                // Add click event listener to each thumbnail
+                thumbnails.forEach(function(thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        updatePhoto(thumbnail);
+                    });
+                });
+            }
+
+            // Setup both galleries
+            // Example:
+            // setupGallery('gallery1');
+            // setupGallery('gallery2');
+            setupGallery('gallery0');
+setupGallery('gallery1');
+setupGallery('gallery2');
+setupGallery('gallery3');
+setupGallery('gallery4');
+setupGallery('gallery5');
+setupGallery('gallery6');
+setupGallery('gallery7');
+setupGallery('gallery8');
+
+        });
+    </script>
+</gallery-body>
+</html>
