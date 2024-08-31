@@ -542,8 +542,13 @@ def plot_collection_combined(collection_name, activities):
     # Apply formatting to the Strava Link column
     df['Strava Link'] = df['Strava Link'].apply(format_link)
     # Convert DataFrame to HTML
+    # df.style.set_table_styles([{'selector': 'table', 'props': [('max-width', '600px')]}]).render()
     html_table = df.to_html(escape=False, index=False)
-
+    html_table = f"""
+    <div style="max-width: 100%; overflow-x: auto;">
+        {html_table}
+    </div>
+    """
     # Define CSS styles
     css_styles = """
     <style>
@@ -898,7 +903,7 @@ def main():
         # for activity in activities:
         #     print(activity['activity_photos'])
         # plot_elevation_profile(activities)
-        # plot_collection_combined(collection, activities)
+        plot_collection_combined(collection, activities)
         plot_photogallery(collection, activities)
         # save_collection_summary(collection, activities)
 
