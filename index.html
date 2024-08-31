@@ -8,6 +8,23 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
+.additional-photo:active {
+    transform: scale(5); /* Zoom effect */
+    z-index: 10; /* Ensure the zoomed image is on top */
+    position: relative;
+}
+.additional-photo {
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    cursor: pointer; /* Indicates that the image is clickable */
+}
+
+.additional-photo.zoomed {
+    transform: scale(5); /* Zoom effect */
+    z-index: 10; /* Brings the zoomed image to the front */
+    position: relative;
+}
+
 .topnav {
   overflow: hidden;
   background-color: #333;
@@ -209,7 +226,7 @@ margin: -70px 20px 20px 20px;
                             28 days, 282 h, 10.1 h/day<br>
                             6019 km, 215 km/day<br>
                             52114 hm, 1861 hm/day<br>
-                            19 countries:&#x1F1F1;&#x1F1EE;&#x1F1F2;&#x1F1F0;&#x1F1EE;&#x1F1F9;&#x1F1E8;&#x1F1ED;&#x1F1F8;&#x1F1EE;&#x1F1E7;&#x1F1EA;&#x1F1F3;&#x1F1F1;&#x1F1E9;&#x1F1EA;&#x1F1F2;&#x1F1EA;&#x1F1ED;&#x1F1F7;&#x1F1E9;&#x1F1F0;&#x1F1F8;&#x1F1EA;&#x1F1EC;&#x1F1F7;&#x1F1E6;&#x1F1F9;&#x1F1E6;&#x1F1F1;&#x1F1FD;&#x1F1F0;&#x1F1F9;&#x1F1F7;&#x1F1F3;&#x1F1F4;&#x1F1EB;&#x1F1F7;
+                            19 countries:&#x1F1EB;&#x1F1F7;&#x1F1F9;&#x1F1F7;&#x1F1EC;&#x1F1F7;&#x1F1E9;&#x1F1EA;&#x1F1F3;&#x1F1F1;&#x1F1E6;&#x1F1F9;&#x1F1F8;&#x1F1EA;&#x1F1F3;&#x1F1F4;&#x1F1FD;&#x1F1F0;&#x1F1E8;&#x1F1ED;&#x1F1E6;&#x1F1F1;&#x1F1F2;&#x1F1F0;&#x1F1E7;&#x1F1EA;&#x1F1EE;&#x1F1F9;&#x1F1E9;&#x1F1F0;&#x1F1F2;&#x1F1EA;&#x1F1F8;&#x1F1EE;&#x1F1F1;&#x1F1EE;&#x1F1ED;&#x1F1F7;
                         </span>
                     </a>
                 </li>
@@ -223,7 +240,7 @@ margin: -70px 20px 20px 20px;
                             21 days, 187 h, 8.9 h/day<br>
                             3782 km, 180 km/day<br>
                             37376 hm, 1780 hm/day<br>
-                            7 countries:&#x1F1EA;&#x1F1F8;&#x1F1F1;&#x1F1EE;&#x1F1E8;&#x1F1FF;&#x1F1E9;&#x1F1EA;&#x1F1E6;&#x1F1F9;&#x1F1E8;&#x1F1ED;&#x1F1EB;&#x1F1F7;
+                            7 countries:&#x1F1EA;&#x1F1F8;&#x1F1E8;&#x1F1ED;&#x1F1EB;&#x1F1F7;&#x1F1E9;&#x1F1EA;&#x1F1F1;&#x1F1EE;&#x1F1E6;&#x1F1F9;&#x1F1E8;&#x1F1FF;
                         </span>
                     </a>
                 </li>
@@ -290,9 +307,9 @@ margin: -70px 20px 20px 20px;
                         <span class="rig-overlay"></span>
                         <span class="rig-text" style="position: absolute; top: 30px; left: 0px;">
                             <b>&#x48;&#x69;&#x6B;&#x65;&#x73;&#x20;&#x77;&#x69;&#x74;&#x68;&#x20;&#x50;&#x65;&#x72;&#x6C;&#x61;</b><br>
-                            8 days, 39 h, 4.8 h/day<br>
+                            8 days, 40 h, 5.0 h/day<br>
                             119 km, 15 km/day<br>
-                            7060 hm, 882 hm/day<br>
+                            7052 hm, 882 hm/day<br>
                             1 country:
                         </span>
                     </a>
@@ -317,4 +334,20 @@ margin: -70px 20px 20px 20px;
 
 
 </body>
+
+<script>
+// Ensure the script runs after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all elements with the class 'additional-photo'
+    document.querySelectorAll('.additional-photo').forEach(function(img) {
+        // Add a click event listener to each image
+        img.addEventListener('click', function() {
+            // Toggle the 'zoomed' class on click to zoom in or out
+            img.classList.toggle('zoomed');
+        });
+    });
+});
+</script>
+
+
 </html>

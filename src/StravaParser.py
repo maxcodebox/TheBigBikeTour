@@ -1,4 +1,7 @@
 import os
+import re
+import requests
+from bs4 import BeautifulSoup
 import pickle
 import numpy as np
 from geopy.distance import geodesic
@@ -6,6 +9,25 @@ from stravalib import Client
 import trips as tr
 import tokens
 
+def get_activity_photos_from_web(activity_id, size = 5000):
+    # https://communityhub.strava.com/t5/developer-discussions/download-all-photos-of-my-own-activities/m-p/11262
+    # Construct the URL manually
+    url = f"https://www.strava.com/api/v3/activities/{activity_id}/photos?size={size}"
+
+    # Headers including the OAuth token for authentication
+    headers = {
+        'Authorization': f"Bearer {tokens.ACCESS_TOKEN}"
+    }
+
+    # Making the GET request to Strava API
+    response = requests.get(url, headers=headers)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        photos = response.json()  # The photos data in JSON format
+        return photos
+    else:
+        print("Error:", response.status_code, response.text)
 
 def update_all():
     client = Client(access_token=tokens.ACCESS_TOKEN)
@@ -118,6 +140,9 @@ def import_activity(activity_id, client, reload = False, reversed = False):
         # Convert the activity to a dictionary
         activity_dict = activity.dict()
         activity_dict['stream_dict'] = stream_dict
+        activity_dict['activity_photos'] = get_activity_photos_from_web(activity_id)
+        # for idx, url in enumerate(activity_dict['activity_photos']):
+        #     print(f"Figure {idx+1}: {url}")
         # Save the dictionary to a pickle file
         with open(file_path, 'wb') as f:
             pickle.dump(activity_dict, f)

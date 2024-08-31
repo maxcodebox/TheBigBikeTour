@@ -43,7 +43,6 @@ def emoji_to_html_entities(text):
         for char in text
     )
 
-
 def zoom_center(
     lons: tuple = None,
     lats: tuple = None,
@@ -576,37 +575,172 @@ def plot_collection_combined(collection_name, activities):
     """
 
     html_images = '<ul id="rig">'
+    html_content = ""
     # for activity_dict in sorted(activities, key=lambda x: x['start_date']):
-    for activity_dict in activities:
+    for index, activity_dict in enumerate(activities):
+        
+
+        # START NEW VERSION OF HTML_IMAGES
+        # Display the first photo separately
+        # first_photo = activity_dict['activity_photos'][0]
+        # html_images += f"""
+        #     <li style="width: 100%; max-width: 600px; margin: 0 auto; box-sizing: border-box; padding: 5px;">
+        #         <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
+        #             <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+        #                 <img class="rig-img" src="{first_photo['urls']['5000']}" 
+        #                     style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+        #                             transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+        #             </div>
+        #             <span class="rig-overlay"></span>
+        #             <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+        #                 <b>{emoji_to_html(activity_dict["name"])}</b><br>
+        #                 {activity_dict['distance']*1e-3:.0f} km<br>
+        #                 {activity_dict['total_elevation_gain']:.0f} hm<br>
+        #                 {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+        #                 <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
+        #             </span>
+        #         </a>
+        #     </li>
+        # """
+
+        # # Display remaining photos in a grid that wraps
+        # if len(activity_dict['activity_photos']) > 1:
+        #     html_images += '<li style="width: 100%; max-width: 600px; margin: 0 auto; box-sizing: border-box; padding: 5px; display: flex; flex-wrap: wrap;">'
+
+        #     for photo in activity_dict['activity_photos'][1:]:
+        #         html_images += f"""
+        #             <div style="flex: 1 1 calc(33.33% - 10px); padding: 5px; box-sizing: border-box;">
+        #                 <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
+        #                     <div style="width: 100%; padding-bottom: 100%; position: relative; overflow: hidden;">
+        #                         <img class="rig-img" src="{photo['urls']['5000']}" 
+        #                             style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+        #                                     transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+        #                     </div>
+        #                 </a>
+        #             </div>
+        #         """
+        #     html_images += '</li>'
+        # END NEW VERSION OF HTML_IMAGES
+
+        # if activity_dict['photos']['count'] > 0:
+        #     # flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
+        #     # html_images += f"""
+        #     #     <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+        #     #         <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
+        #     #             <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+        #     #                 <img class="rig-img" src="{activity_dict['photos']['primary']['urls']['600']}" 
+        #     #                     style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+        #     #                             transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+        #     #             </div>
+        #     #             <span class="rig-overlay"></span>
+        #     #             <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+        #     #                 <b>{emoji_to_html(activity_dict["name"])}</b><br>
+        #     #                 {activity_dict['distance']*1e-3:.0f} km<br>
+        #     #                 {activity_dict['total_elevation_gain']:.0f} hm<br>
+        #     #                 {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+        #     #                 <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
+        #     #             </span>
+        #     #         </a>
+        #     #     </li>
+        #     # """
+            
+        #     # for photo in activity_dict['activity_photos']:
+                
+        #     #     html_images += f"""
+        #     #         <li style="width: 50%; box-sizing: border-box; padding: 5px;">
+        #     #             <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
+        #     #                 <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
+        #     #                     <img class="rig-img" src="{photo['urls']['5000']}" 
+        #     #                         style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+        #     #                                 transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+        #     #                 </div>
+        #     #                 <span class="rig-overlay"></span>
+        #     #                 <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
+        #     #                     <b>{emoji_to_html(activity_dict["name"])}</b><br>
+        #     #                     {activity_dict['distance']*1e-3:.0f} km<br>
+        #     #                     {activity_dict['total_elevation_gain']:.0f} hm<br>
+        #     #                     {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+        #     #                     <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
+        #     #                 </span>
+        #     #             </a>
+        #     #         </li>
+        #     #     """
+        strava_link = f"https://www.strava.com/activities/{activity_dict['id']}"
         if activity_dict['photos']['count'] > 0:
-            flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
-            html_images += f"""
-                <li style="width: 50%; box-sizing: border-box; padding: 5px;">
-                    <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
-                        <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
-                            <img class="rig-img" src="{activity_dict['photos']['primary']['urls']['600']}" 
-                                style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-                                        transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
+            additional_photos_html = ""
+            if activity_dict['photos']['count'] > 1:
+                # Calculate the height of the additional photos based on 10% of the primary photo's height
+                additional_photo_height = "6.667vw"  # 10% of 66.67% (or 66.67% * 0.1)
+
+                # Loop through remaining photos and add them in a row
+                for photo in activity_dict['activity_photos'][1:]:
+                    additional_photos_html += f"""
+                        <img src="{photo['urls']['5000']}" 
+                            class="additional-photo" 
+                            style="height: {additional_photo_height}; margin: 1%; border-radius: 5px; object-fit: cover; cursor: pointer;">
+                    """
+
+            # Continue with the main layout logic
+            if index % 2 == 0:
+                # Photo on the left, stats on the right
+                html_content += f"""
+                    <div style="display: flex; flex-direction: row; background-color: #d3e4d3; border-radius: 15px; margin: 15px 0; padding: 15px;">
+                        <div style="width: 50%; padding: 10px;">
+                            <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden; border-radius: 10px;">
+                                <img src="{activity_dict['photos']['primary']['urls']['600']}" 
+                                    style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                            transform: translate(-50%, -50%); object-fit: cover;">
+                            </div>
+                            <div style="margin-top: 10px; display: flex; justify-content: right; flex-wrap: wrap;">
+                                {additional_photos_html}
+                            </div>
                         </div>
-                        <span class="rig-overlay"></span>
-                        <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
-                            <b>{emoji_to_html(activity_dict["name"])}</b><br>
-                            {activity_dict['distance']*1e-3:.0f} km<br>
-                            {activity_dict['total_elevation_gain']:.0f} hm<br>
-                            {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-                            <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-                        </span>
-                    </a>
-                </li>
-            """
-    html_images += '</ul>'
+                        <div style="width: 50%; padding: 10px; display: flex; align-items: center; justify-content: center;">
+                            <div style="color: #333; font-size: 16px; text-align: center;">
+                                <h1>{emoji_to_html(activity_dict["name"])}</h1><br>
+                                {activity_dict['distance']*1e-3:.0f} km<br>
+                                {activity_dict['total_elevation_gain']:.0f} hm<br>
+                                {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+                                <a href="{strava_link}">View on Strava</a><br>
+                                <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
+                            </div>
+                        </div>
+                    </div>
+                """
+            else:
+                # Stats on the left, photo on the right
+                html_content += f"""
+                    <div style="display: flex; flex-direction: row-reverse; background-color: #d3e4d3; border-radius: 15px; margin: 15px 0; padding: 15px;">
+                        <div style="width: 50%; padding: 10px;">
+                            <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden; border-radius: 10px;">
+                                <img src="{activity_dict['photos']['primary']['urls']['600']}" 
+                                    style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
+                                            transform: translate(-50%, -50%); object-fit: cover;">
+                            </div>
+                            <div style="margin-top: 10px; display: flex; justify-content: left; flex-wrap: wrap;">
+                                {additional_photos_html}
+                            </div>
+                        </div>
+                        <div style="width: 50%; padding: 10px; display: flex; align-items: center; justify-content: center;">
+                            <div style="color: #333; font-size: 16px; text-align: center;">
+                                <h1>{emoji_to_html(activity_dict["name"])}</h1><br>
+                                {activity_dict['distance']*1e-3:.0f} km<br>
+                                {activity_dict['total_elevation_gain']:.0f} hm<br>
+                                {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
+                                <a href="{strava_link}">View on Strava</a><br>
+                                <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
+                            </div>
+                        </div>
+                    </div>
+                """
+    html_images += html_content + '</ul>'
     # Combine CSS and HTML table
     html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>{css_styles}</head><body>{html_table}<br>{html_images}</body></html>'
 
     # Write to an HTML file
     with open(f'figures/html/{collection_name}_summary_table.html', 'w') as f:
         f.write(html_output)
-    
+    print(f'open figures/html/{collection_name}_summary_table.html')
     for activity_dict in activities:
         pattern = r'⛰️\s*([^\(]+)\s*\(([\d,]+)\s*m\)'
         matches = re.findall(pattern, activity_dict['description'])
@@ -689,10 +823,11 @@ def main():
         collections = [collection]
     for collection in collections:
         activities = sp.import_collection(collection, reload=False)
-        plot_elevation_profile(activities)
+        # for activity in activities:
+        #     print(activity['activity_photos'])
+        # plot_elevation_profile(activities)
         plot_collection_combined(collection, activities)
-        save_collection_summary(collection, activities)
-
+        # save_collection_summary(collection, activities)
 
 if __name__ == "__main__":
     main()
