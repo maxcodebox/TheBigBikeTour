@@ -404,9 +404,13 @@ def plot_collection_combined(collection_name, activities):
     all_lons = []
 
     # Generate a consistent color for each activity
+    # colors = [
+    #     f"rgb({r},{g},{b})"
+    #     for r, g, b in np.random.randint(0, 255, (len(activities), 3))
+    # ]
     colors = [
         f"rgb({r},{g},{b})"
-        for r, g, b in np.random.randint(0, 255, (len(activities), 3))
+        for r, g, b in np.random.randint(0, 200, (len(activities), 3))  # Range set to 0-100 for darker colors
     ]
 
     for idx,activity_dict in enumerate(activities):
