@@ -854,10 +854,10 @@ def plot_photogallery(collection_name, activities):
             </div>
         </div>
         """
-        setup_gallery_html += f"setupGallery('gallery{iact}');\n"
+        if activity_dict['photos']['count'] > 0:
+            setup_gallery_html += f"setupGallery('gallery{iact}');\n"
     with open("templates/PHOTOGALLERY_TEMPLATE.html", "r") as f:
         template = ''.join(f.readlines())
-    print(first_photo)
     #template = template.replace('<!--LARGE_PHOTO-->',first_photo)
     template = template.replace('<!--gallery_content-->',gallery_html)
     template = template.replace('SETUP_GALLERY_CODE',setup_gallery_html)
@@ -903,7 +903,7 @@ def main():
         # for activity in activities:
         #     print(activity['activity_photos'])
         # plot_elevation_profile(activities)
-        plot_collection_combined(collection, activities)
+        # plot_collection_combined(collection, activities)
         plot_photogallery(collection, activities)
         # save_collection_summary(collection, activities)
 
