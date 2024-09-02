@@ -929,8 +929,8 @@ def main():
     collection = args.collection
     if collection == "all":
         collections = [
-            "norway-turkey",
-            "berlin-tarifa",
+            # "norway-turkey",
+            # "berlin-tarifa",
             "hue-hcmc_2016",
             "taiwan_2017",
             "yokohama-fukuoka_2019",
@@ -942,13 +942,11 @@ def main():
         collections = [collection]
     for collection in collections:
         activities = sp.import_collection(collection, reload=False)
-        # for activity in activities:
-        #     print(activity['activity_photos'])
-        # plot_elevation_profile(activities)
+        plot_elevation_profile(activities)
         plot_collection_combined(collection, activities)
         plot_photogallery(collection, activities)
-        # save_collection_summary(collection, activities)
-        #plot_elevation_gain_curve(collection, activities)
+        save_collection_summary(collection, activities)
+        plot_elevation_gain_curve(collection, activities)
 if __name__ == "__main__":
     main()
     #update_all()
