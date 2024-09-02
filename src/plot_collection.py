@@ -11,6 +11,7 @@ import pandas as pd
 import trips as tr
 import plotly.express as px
 from plotly.subplots import make_subplots
+import plotly.colors as pc
 import plotly.graph_objects as go
 import polyline
 import numpy as np
@@ -218,7 +219,7 @@ def add_activity_line_to_map(
     fig,
     activity_dict,
     line_color="blue",
-    line_width=4.5,
+    line_width=3.0,
     row=None,
     col=None,
     reversed=False,
@@ -226,29 +227,48 @@ def add_activity_line_to_map(
     # Decode the polyline coordinates
     coordinates = polyline.decode(activity_dict["map"]["summary_polyline"])
     lats, lons = zip(*coordinates)
+    elevations = activity_dict["stream_dict"]["altitude"]
 
-    # Check for photo URL if available
-    photo_url = ""
-    if activity_dict["photos"]["count"] > 0:
-        photo_url = activity_dict["photos"]["primary"]["urls"]["600"]
     hovertemplate, customdata = get_hoverdata(activity_dict, reversed=reversed)
     # Add the activity line to the map with hover information
-    trace = go.Scattermapbox(
-        mode="lines",
-        lon=lons,
-        lat=lats,
-        name=activity_dict["name"],
-        customdata=customdata
-        * len(lons),  # Ensure customdata has the same length as lons
-        hovertemplate=hovertemplate,
-        line=dict(width=line_width, color=line_color),
-        showlegend=False,
-    )
+    # 2D map
+    for i in [0,1]:
+        if i == 0:
+            lw = line_width + 2
+            color = 'white'
+        else:
+            lw = line_width
+            color = line_color
+        trace = go.Scattermapbox(
+            mode="lines",
+            lon=lons,
+            lat=lats,
+            name=activity_dict["name"],
+            customdata=customdata
+            * len(lons),  # Ensure customdata has the same length as lons
+            hovertemplate=hovertemplate,
+            line=dict(width=lw, color=color),
+            showlegend=False,
+        )
 
-    if row is not None and col is not None:
-        fig.add_trace(trace, row=row, col=col)
-    else:
-        fig.add_trace(trace)
+        # Add the activity line to the 3D map with hover information
+        # 3D map
+        # trace = go.Scatter3d(
+        #     mode="lines",
+        #     x=lons,  # X-axis: Longitude
+        #     y=lats,  # Y-axis: Latitude
+        #     z=elevations,  # Z-axis: Elevation or height
+        #     name=activity_dict["name"],
+        #     customdata=customdata * len(lons),  # Ensure customdata has the same length as lons
+        #     hovertemplate=hovertemplate,
+        #     line=dict(width=line_width, color=line_color),
+        #     showlegend=False,
+        # )
+            
+        if row is not None and col is not None:
+            fig.add_trace(trace, row=row, col=col)
+        else:
+            fig.add_trace(trace)
 
     #fig.update_traces(hovertemplate=hovertemplate)
     return fig
@@ -405,7 +425,12 @@ def plot_collection_combined(collection_name, activities):
         cols=1,
         row_heights=[0.25, 0.75],
         vertical_spacing=0.05,
-        specs=[[{"type": "scatter"}], [{"type": "scattermapbox"}]],#, [{"type": "table"}]],
+        specs=[
+                [{"type": "scatter"}],
+                [{"type": "scattermapbox"}],
+                # [{"type": "scatter3d"}],
+                # [{"type": "table"}]
+               ],
     )
 
     all_lats = []
@@ -416,11 +441,18 @@ def plot_collection_combined(collection_name, activities):
     #     f"rgb({r},{g},{b})"
     #     for r, g, b in np.random.randint(0, 255, (len(activities), 3))
     # ]
-    colors = [
-        f"rgb({r},{g},{b})"
-        for r, g, b in np.random.randint(0, 200, (len(activities), 3))  # Range set to 0-100 for darker colors
-    ]
+    # colors = [
+    #     f"rgb({r},{g},{b})"
+    #     for r, g, b in np.random.randint(0, 200, (len(activities), 3))  # Range set to 0-100 for darker colors
+    # ]
 
+    # Get the colors from the Viridis colorscale
+    colors_inferno = pc.sample_colorscale('Inferno', [i / (len(activities) - 1) for i in range(len(activities))])
+    colors_dark24 = px.colors.qualitative.Dark24
+    colors = [colors_dark24[i % len(colors_dark24)] for i in range(len(activities))]
+    #print(colors)
+    # print(f"{viridis_colors = }")
+    # exit()
     for idx,activity_dict in enumerate(activities):
         coordinates = polyline.decode(activity_dict["map"]["polyline"])
         lats, lons = zip(*coordinates)
@@ -439,14 +471,7 @@ def plot_collection_combined(collection_name, activities):
 
     zoom, center = zoom_center(lons=all_lons, lats=all_lats, width_to_height=5.0)
 
-    fig.update_layout(
-        mapbox={
-            "accesstoken": tokens.MAPBOX_TOKEN,
-            "style": "outdoors",
-            "center": center,
-            "zoom": zoom,
-        }
-    )
+    
 
     # Generate the altitude subplot
     N = 50
@@ -478,6 +503,85 @@ def plot_collection_combined(collection_name, activities):
             col=1,
         )
         x0 += np.amax(activity_dict["stream_dict"]["distance"])
+    
+    # Update the layout
+    
+    # Define all available Mapbox styles
+    styles = [
+        "outdoors",
+        "streets",
+        "light",
+        "dark",
+        "satellite",
+        "satellite-streets",
+        # "navigation-day",
+        # "navigation-night"
+    ]
+    # Create buttons for each style
+    buttons = [
+        dict(
+            label=style.capitalize().replace("-", " "),
+            method="relayout",
+            args=["mapbox.style", style]
+        ) for style in styles
+    ]
+    # Set up the layout with default "streets" style
+    fig.update_layout(
+        mapbox={
+            "accesstoken": tokens.MAPBOX_TOKEN,
+            "style": "outdoors",
+            # "style":'satellite',
+            "center": center,
+            "zoom": zoom,
+        },
+        updatemenus=[
+            dict(
+                type="dropdown",
+                x=0.05,
+                y=0.70,
+                buttons=buttons,
+                showactive=True,
+                xanchor='left',
+                yanchor='top'
+            )
+        ],
+        height=total_height,  # Increase the height to accommodate the table subplot
+        margin=dict(l=20, r=20, t=10, b=10),
+        showlegend=False,
+    )
+    fig.update_xaxes(title_text="Distance (km)", row=1, col=1)
+    fig.update_yaxes(title_text="Altitude (m)", row=1, col=1)
+    #fig.show()
+    
+    html_path = f"figures/html/{collection_name}.html"
+    fig.write_html(html_path)
+    print(f"open {html_path}")
+
+    # Isolate the map subplot
+    map_fig = go.Figure()
+
+    for trace in fig.data:
+        # Check if the trace belongs to the map subplot (row=2, col=1)
+        if trace.type == "scattermapbox":
+            map_fig.add_trace(trace)
+
+    # Update the layout to match the original map subplot
+    map_fig.update_layout(
+        mapbox={
+            "accesstoken": tokens.MAPBOX_TOKEN,
+            "style": "outdoors",
+            "center": fig.layout.mapbox["center"],
+            "zoom": fig.layout.mapbox["zoom"],
+        },
+        height=600,  # Adjust height as needed
+        margin=dict(l=0, r=0, t=0, b=0),
+    )
+    
+    # map_fig.update_layout(mapbox_style="open-street-map")
+    # Save the isolated map subplot as PNG
+    os.makedirs("figures/static", exist_ok=True)
+    png_path = f"figures/static/{collection_name}_map.png"
+    map_fig.write_image(png_path)
 
     # Create table data
     table_header = [
@@ -587,170 +691,8 @@ def plot_collection_combined(collection_name, activities):
         }
     </style>
     """
-
-    # html_images = '<ul id="rig">'
-    # html_content = ""
-    # # for activity_dict in sorted(activities, key=lambda x: x['start_date']):
-    # for index, activity_dict in enumerate(activities):
-        
-
-    #     # START NEW VERSION OF HTML_IMAGES
-    #     # Display the first photo separately
-    #     # first_photo = activity_dict['activity_photos'][0]
-    #     # html_images += f"""
-    #     #     <li style="width: 100%; max-width: 600px; margin: 0 auto; box-sizing: border-box; padding: 5px;">
-    #     #         <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
-    #     #             <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
-    #     #                 <img class="rig-img" src="{first_photo['urls']['5000']}" 
-    #     #                     style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #     #                             transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
-    #     #             </div>
-    #     #             <span class="rig-overlay"></span>
-    #     #             <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
-    #     #                 <b>{emoji_to_html(activity_dict["name"])}</b><br>
-    #     #                 {activity_dict['distance']*1e-3:.0f} km<br>
-    #     #                 {activity_dict['total_elevation_gain']:.0f} hm<br>
-    #     #                 {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-    #     #                 <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-    #     #             </span>
-    #     #         </a>
-    #     #     </li>
-    #     # """
-
-    #     # # Display remaining photos in a grid that wraps
-    #     # if len(activity_dict['activity_photos']) > 1:
-    #     #     html_images += '<li style="width: 100%; max-width: 600px; margin: 0 auto; box-sizing: border-box; padding: 5px; display: flex; flex-wrap: wrap;">'
-
-    #     #     for photo in activity_dict['activity_photos'][1:]:
-    #     #         html_images += f"""
-    #     #             <div style="flex: 1 1 calc(33.33% - 10px); padding: 5px; box-sizing: border-box;">
-    #     #                 <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
-    #     #                     <div style="width: 100%; padding-bottom: 100%; position: relative; overflow: hidden;">
-    #     #                         <img class="rig-img" src="{photo['urls']['5000']}" 
-    #     #                             style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #     #                                     transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
-    #     #                     </div>
-    #     #                 </a>
-    #     #             </div>
-    #     #         """
-    #     #     html_images += '</li>'
-    #     # END NEW VERSION OF HTML_IMAGES
-
-    #     # if activity_dict['photos']['count'] > 0:
-    #     #     # flags_html = ''.join([emoji_to_html(flag) for flag in extract_flag_emojis(activity_dict["name"])])
-    #     #     # html_images += f"""
-    #     #     #     <li style="width: 50%; box-sizing: border-box; padding: 5px;">
-    #     #     #         <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
-    #     #     #             <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
-    #     #     #                 <img class="rig-img" src="{activity_dict['photos']['primary']['urls']['600']}" 
-    #     #     #                     style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #     #     #                             transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
-    #     #     #             </div>
-    #     #     #             <span class="rig-overlay"></span>
-    #     #     #             <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
-    #     #     #                 <b>{emoji_to_html(activity_dict["name"])}</b><br>
-    #     #     #                 {activity_dict['distance']*1e-3:.0f} km<br>
-    #     #     #                 {activity_dict['total_elevation_gain']:.0f} hm<br>
-    #     #     #                 {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-    #     #     #                 <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-    #     #     #             </span>
-    #     #     #         </a>
-    #     #     #     </li>
-    #     #     # """
-            
-    #     #     # for photo in activity_dict['activity_photos']:
-                
-    #     #     #     html_images += f"""
-    #     #     #         <li style="width: 50%; box-sizing: border-box; padding: 5px;">
-    #     #     #             <a class="rig-cell" href="https://www.strava.com/activities/{activity_dict['id']}">
-    #     #     #                 <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden;">
-    #     #     #                     <img class="rig-img" src="{photo['urls']['5000']}" 
-    #     #     #                         style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #     #     #                                 transform: translate(-50%, -50%); object-fit: cover; object-position: center;">
-    #     #     #                 </div>
-    #     #     #                 <span class="rig-overlay"></span>
-    #     #     #                 <span class="rig-text" style="position: absolute; top: 50px; left: 0px;">
-    #     #     #                     <b>{emoji_to_html(activity_dict["name"])}</b><br>
-    #     #     #                     {activity_dict['distance']*1e-3:.0f} km<br>
-    #     #     #                     {activity_dict['total_elevation_gain']:.0f} hm<br>
-    #     #     #                     {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-    #     #     #                     <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-    #     #     #                 </span>
-    #     #     #             </a>
-    #     #     #         </li>
-    #     #     #     """
-    #     strava_link = f"https://www.strava.com/activities/{activity_dict['id']}"
-    #     if activity_dict['photos']['count'] > 0:
-    #         additional_photos_html = ""
-    #         if activity_dict['photos']['count'] > 1:
-    #             # Calculate the height of the additional photos based on 10% of the primary photo's height
-    #             additional_photo_height = "6.667vw"  # 10% of 66.67% (or 66.67% * 0.1)
-
-    #             # Loop through remaining photos and add them in a row
-    #             for photo in activity_dict['activity_photos'][1:]:
-    #                 additional_photos_html += f"""
-    #                     <img src="{photo['urls']['5000']}" 
-    #                         class="additional-photo" 
-    #                         style="height: {additional_photo_height}; margin: 1%; border-radius: 5px; object-fit: cover; cursor: pointer;">
-    #                 """
-
-    #         # Continue with the main layout logic
-    #         if index % 2 == 0:
-    #             # Photo on the left, stats on the right
-    #             html_content += f"""
-    #                 <div style="display: flex; flex-direction: row; background-color: #d3e4d3; border-radius: 15px; margin: 15px 0; padding: 15px;">
-    #                     <div style="width: 50%; padding: 10px;">
-    #                         <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden; border-radius: 10px;">
-    #                             <img src="{activity_dict['photos']['primary']['urls']['600']}" 
-    #                                 style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #                                         transform: translate(-50%, -50%); object-fit: cover;">
-    #                         </div>
-    #                         <div style="margin-top: 10px; display: flex; justify-content: right; flex-wrap: wrap;">
-    #                             {additional_photos_html}
-    #                         </div>
-    #                     </div>
-    #                     <div style="width: 50%; padding: 10px; display: flex; align-items: center; justify-content: center;">
-    #                         <div style="color: #333; font-size: 16px; text-align: center;">
-    #                             <h1>{emoji_to_html(activity_dict["name"])}</h1><br>
-    #                             {activity_dict['distance']*1e-3:.0f} km<br>
-    #                             {activity_dict['total_elevation_gain']:.0f} hm<br>
-    #                             {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-    #                             <a href="{strava_link}">View on Strava</a><br>
-    #                             <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-    #                         </div>
-    #                     </div>
-    #                 </div>
-    #             """
-    #         else:
-    #             # Stats on the left, photo on the right
-    #             html_content += f"""
-    #                 <div style="display: flex; flex-direction: row-reverse; background-color: #d3e4d3; border-radius: 15px; margin: 15px 0; padding: 15px;">
-    #                     <div style="width: 50%; padding: 10px;">
-    #                         <div style="width: 100%; padding-bottom: 66.67%; position: relative; overflow: hidden; border-radius: 10px;">
-    #                             <img src="{activity_dict['photos']['primary']['urls']['600']}" 
-    #                                 style="width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; 
-    #                                         transform: translate(-50%, -50%); object-fit: cover;">
-    #                         </div>
-    #                         <div style="margin-top: 10px; display: flex; justify-content: left; flex-wrap: wrap;">
-    #                             {additional_photos_html}
-    #                         </div>
-    #                     </div>
-    #                     <div style="width: 50%; padding: 10px; display: flex; align-items: center; justify-content: center;">
-    #                         <div style="color: #333; font-size: 16px; text-align: center;">
-    #                             <h1>{emoji_to_html(activity_dict["name"])}</h1><br>
-    #                             {activity_dict['distance']*1e-3:.0f} km<br>
-    #                             {activity_dict['total_elevation_gain']:.0f} hm<br>
-    #                             {activity_dict['moving_time'] / (60 * 60): .1f} h<br>
-    #                             <a href="{strava_link}">View on Strava</a><br>
-    #                             <img src="figures/static/{activity_dict['id']}_elevation_profile.png" width="90%" height="20%">
-    #                         </div>
-    #                     </div>
-    #                 </div>
-    #             """
-    # html_images += html_content + '</ul>'
-    # # Combine CSS and HTML table
-    
-    html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Styled HTML Table</title>{css_styles}</head><body>{html_table}</body></html>'
+    # Combine CSS and HTML table
+    html_output = f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>{collection_name}</title>{css_styles}</head><body>{html_table}</body></html>'
 
     # Write to an HTML file
     os.makedirs("figures/html", exist_ok=True)
@@ -766,43 +708,7 @@ def plot_collection_combined(collection_name, activities):
     #         elevation_float = float(elevation.replace(',', '.'))
 
     # Adjust layout for the combined figure
-    fig.update_layout(
-        height=total_height,  # Increase the height to accommodate the table subplot
-        margin=dict(l=20, r=20, t=10, b=10),
-        showlegend=False,
-    )
-    fig.update_xaxes(title_text="Distance (km)", row=1, col=1)
-    fig.update_yaxes(title_text="Altitude (m)", row=1, col=1)
-
     
-    html_path = f"figures/html/{collection_name}.html"
-    fig.write_html(html_path)
-    print(f"open {html_path}")
-
-    # Isolate the map subplot
-    map_fig = go.Figure()
-
-    for trace in fig.data:
-        # Check if the trace belongs to the map subplot (row=2, col=1)
-        if trace.type == "scattermapbox":
-            map_fig.add_trace(trace)
-
-    # Update the layout to match the original map subplot
-    map_fig.update_layout(
-        mapbox={
-            "accesstoken": tokens.MAPBOX_TOKEN,
-            "style": "outdoors",
-            "center": fig.layout.mapbox["center"],
-            "zoom": fig.layout.mapbox["zoom"],
-        },
-        height=600,  # Adjust height as needed
-        margin=dict(l=0, r=0, t=0, b=0),
-    )
-
-    # Save the isolated map subplot as PNG
-    os.makedirs("figures/static", exist_ok=True)
-    png_path = f"figures/static/{collection_name}_map.png"
-    map_fig.write_image(png_path)
 
 def plot_photogallery(collection_name, activities):
     setup_gallery_html = ""
@@ -865,6 +771,143 @@ def plot_photogallery(collection_name, activities):
     with open(f'figures/html/photogallery_{collection_name}.html','w') as f2:
         f2.write(template)
     print(f'open figures/html/photogallery_{collection_name}.html')
+
+
+
+
+def max_average_elevation_gain_in_window(elevation_gain, time_data, window_size):
+    """
+    Calculate the maximum average elevation gain within a sliding window of size `window_size`.
+    """
+    max_avg_gain = 0
+    window_samples = int(window_size)  # Number of samples corresponding to the time window
+
+    for i in range(len(time_data) - window_samples):
+        # Get the current window data
+        window_altitude_gain = elevation_gain[i:i + window_samples]
+        window_time = time_data[i + window_samples] - time_data[i]  # Time difference over the window
+
+        # Calculate average elevation gain per second within the window
+        if window_time > 0:  # Ensure no division by zero
+            avg_gain = np.sum(window_altitude_gain) / window_time
+            max_avg_gain = max(max_avg_gain, avg_gain)
+
+    return max_avg_gain
+
+def plot_elevation_gain_curve(collection_name, activities, downsample_factor=10):
+    # time_windows = [2**n for n in range(4, 14)]  # 16s, 32s, 64s, ..., 1024s
+    time_windows = [30,40,60,60*2,60*5,60*10,60*20,60*30,60*60,60*60*2]
+    maximum_elevation_gain = [0] * len(time_windows)
+    traces = []
+    
+    for iact, activity_dict in enumerate(activities):
+        print(f"Processing activity {iact + 1}/{len(activities)}: {activity_dict['name']}")
+        # if not 'time' in activity_dict['stream_dict'].keys():
+        #     print(f'No time data for {activity_dict["name"]}, importing from strava...')
+        #     activity_dict = sp.import_activity(activity_dict['id'],reload=True)
+        # Extract and downsample the required streams
+        time_data = activity_dict['stream_dict']['time'][::downsample_factor]  # Assuming time is in seconds
+        altitude_data = activity_dict['stream_dict']['altitude'][::downsample_factor]
+        
+        # Calculate elevation gain between consecutive points
+        elevation_gain = np.diff(altitude_data)
+        elevation_gain[elevation_gain < 0] = 0  # Discard negative gains (descents)
+
+        # Compute maximum average elevation gain for each time window
+        max_avg_gains = []
+        for iwindow, window_size in enumerate(time_windows):
+            # Adjust window size for downsampled data
+            adjusted_window_size = window_size // downsample_factor
+            max_avg_gain = max_average_elevation_gain_in_window(elevation_gain, time_data, adjusted_window_size)
+            max_avg_gains.append(max_avg_gain)
+            maximum_elevation_gain[iwindow] = max(maximum_elevation_gain[iwindow], max_avg_gain)
+        
+        # Prepare trace for this activity
+        traces.append(go.Scatter(
+            x=np.array(time_windows) / 60,  # Convert seconds to minutes for the x-axis
+            y=np.array(max_avg_gains) * 3600,  # Convert to meters per hour for y-axis
+            mode='lines+markers',
+            line=dict(width=0.5), opacity=0.5,
+            name=activity_dict['name'],
+        ))
+
+    # Add the maximum elevation gain trace
+    traces.append(go.Scatter(
+        x=np.array(time_windows) / 60,  # Convert seconds to minutes for the x-axis
+        y=np.array(maximum_elevation_gain) * 3600,  # Convert to meters per hour for y-axis
+        mode='lines+markers+text',
+        line=dict(color='red', dash='dash', width=2),
+        text=[f"{hm:.0f} m/h" for hm in np.array(maximum_elevation_gain) * 3600],  # Display y-values as text
+        textposition='top right',  # Position text above the right side of each marker
+        name='Maximum'
+    ))
+
+    # Create the layout
+    # layout = go.Layout(
+    #     # title=f'Elevation Gain Curve for {collection_name}',
+    #     xaxis=dict(title='Time (min)', type='log'),
+    #     yaxis=dict(title='Maximum elevation gain (m/h)'),
+    #     # legend=dict(x=0.1, y=0.9),
+    #     hovermode='closest'
+    # )
+    # Create the layout
+    layout = go.Layout(
+        # title=f'Elevation Gain Curve for {collection_name}',
+        xaxis=dict(
+            title='Time (min)',
+            type='log',
+            tickmode='linear',
+            ticks='outside',
+            linecolor='black',
+            gridcolor='lightgrey',
+            showline=True,
+            showgrid=True,
+            zeroline=True,
+            showticklabels=True,
+            # tickangle=45,
+            tickprefix='',
+            tickvals=np.array(time_windows) / 60,  # Ensure all time windows are shown
+            ticktext=[f"{int(t)} min" for t in np.array(time_windows) / 60]  # Custom tick labels
+        ),
+        yaxis=dict(
+            title='Maximum elevation gain (m/h)',
+            ticks='outside',
+            linecolor='black',
+            gridcolor='lightgrey',
+            showline=True,
+            showgrid=True,
+            zeroline=True,
+            showticklabels=True,
+            tickprefix='',
+            tickformat=',',  # Format tick labels with thousands separators
+            showexponent='none'
+        ),
+        plot_bgcolor='white',  # Background color of the plot area
+        paper_bgcolor='white',  # Background color of the entire figure
+        margin=dict(l=50, r=50, t=50, b=50),  # Adjust margins if needed
+        # legend=dict(x=0.1, y=0.9),
+        hovermode='closest'
+    )
+
+    # Create the figure and plot
+    fig = go.Figure(data=traces, layout=layout)
+    #fig.show()
+    # Update layout to remove axis labels and background color
+    fig.update_layout(
+        # xaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
+        # yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
+        # plot_bgcolor='rgba(0,0,0,0)',  # Transparent plot background
+        # paper_bgcolor='rgba(0,0,0,0)',  # Transparent paper background
+        # showlegend=False,  # Remove the legend
+        margin=dict(l=0, r=0, t=0, b=0),  # Set all margins to zero
+    )
+
+    # Save the plot as a small PNG file
+    path = f"figures/html/{collection_name}_elevation_gain_curve"
+    # fig.write_image(path + '.png', format="png", width=1600, height=800)
+    fig.write_html(path + '.html')
+    print(f"open {path}.html")
+
 def main():
     # Set up the argument parser
     parser = argparse.ArgumentParser(description="Run the script with a collection.")
@@ -890,7 +933,6 @@ def main():
             "berlin-tarifa",
             "hue-hcmc_2016",
             "taiwan_2017",
-            "hue-hcmc_2016",
             "yokohama-fukuoka_2019",
             "bavarian-alp-traverse",
             "perla-hikes",
@@ -903,10 +945,10 @@ def main():
         # for activity in activities:
         #     print(activity['activity_photos'])
         # plot_elevation_profile(activities)
-        # plot_collection_combined(collection, activities)
+        plot_collection_combined(collection, activities)
         plot_photogallery(collection, activities)
         # save_collection_summary(collection, activities)
-
+        #plot_elevation_gain_curve(collection, activities)
 if __name__ == "__main__":
     main()
     #update_all()

@@ -125,7 +125,7 @@ def import_activity(activity_id, client, reload = False, reversed = False):
         # Fetch the activity from Strava
         activity = client.get_activity(activity_id)
 
-        stream_types = ['latlng', 'altitude', 'distance', 'velocity_smooth', 'heartrate', 'cadence', 'temp']
+        stream_types = ['latlng', 'altitude', 'distance', 'velocity_smooth', 'heartrate', 'cadence', 'temp', 'time']
         streams = client.get_activity_streams(activity_id, types=stream_types)
         stream_dict = {}
         for stream_type in stream_types:

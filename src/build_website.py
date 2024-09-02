@@ -38,6 +38,13 @@ def get_trip_content(collection):
         content += ''.join(f.readlines())
     with open(f'figures/html/{collection}_summary_table.html','r') as f:
         content += ''.join(f.readlines())
+    try:
+        with open(f'figures/html/{collection}_elevation_gain_curve.html','r') as f:
+            content += ''.join(f.readlines())
+            print('imported ', collection)
+    except:
+        print('faled with ', collection)
+        pass
     # with open(f'figures/html/photogallery_{collection}.html','r') as f:
     #     content += ''.join(f.readlines())
     return content
