@@ -827,7 +827,7 @@ def plot_elevation_gain_curve(collection_name, activities, downsample_factor=10)
             x=np.array(time_windows) / 60,  # Convert seconds to minutes for the x-axis
             y=np.array(max_avg_gains) * 3600,  # Convert to meters per hour for y-axis
             mode='lines+markers',
-            line=dict(width=0.5), opacity=0.5,
+            line=dict(width=1.0), opacity=1.0,
             name=activity_dict['name'],
         ))
 
@@ -929,19 +929,20 @@ def main():
     collection = args.collection
     if collection == "all":
         collections = [
-            # "norway-turkey",
-            # "berlin-tarifa",
+            "norway-turkey",
+            "berlin-tarifa",
             "hue-hcmc_2016",
             "taiwan_2017",
             "yokohama-fukuoka_2019",
             "bavarian-alp-traverse",
             "perla-hikes",
             "ibiza_2023",
+            "singapore-kl_2017",
         ]
     else:
         collections = [collection]
     for collection in collections:
-        activities = sp.import_collection(collection, reload=False)
+        activities = sp.import_collection(collection, reload=True)
         plot_elevation_profile(activities)
         plot_collection_combined(collection, activities)
         plot_photogallery(collection, activities)

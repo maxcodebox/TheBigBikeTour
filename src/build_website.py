@@ -50,7 +50,6 @@ def get_trip_content(collection):
     #     content += ''.join(f.readlines())
     return content
 
-
 def get_photo_gallery(collection):
     with open(f"figures/html/photogallery_{collection}.html", "r") as f:
         return "".join(f.readlines())
@@ -76,6 +75,7 @@ def main():
         "bavarian-alp-traverse",
         "perla-hikes",
         "ibiza_2023",
+        "singapore-kl_2017",
     ]
     # selected_collections = ['norway-turkey']
     with open("templates/INDEX_TEMPLATE3.html", "r") as f:
